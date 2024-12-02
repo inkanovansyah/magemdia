@@ -12,7 +12,7 @@
                     <div class="tpoffcanvas__text offcanvas-content">
                         <div class="main-canvas-inner">
                             <div class="canvas-bar-post-list">
-                            <?php
+                                <?php
                                     // WP_Query arguments
                                     $args = array(
                                         'post_type'              => 'post', // or 'any' if you want to include pages as well
@@ -91,10 +91,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="breadcrumb-inner">
-                                <ul>
-                                    <li>Home</li>
-                                    <li>Blog Grid</li>
-                                </ul>
+                          
                             </div>
                         </div>
                     </div>
@@ -103,72 +100,74 @@
             <div class="theme-blog-page-area mb-80">
                 <div class="container">
                     <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <?php
-                                $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-                                $args = array(
-                                    'category_name' => 'rakit-pc-lu', // Ganti 'nama-kategori' dengan slug kategori yang diinginkan
-                                    'posts_per_page' => 6, // Menampilkan 6 posting
-                                    'orderby' => 'date', // Mengurutkan berdasarkan tanggal
-                                    'order' => 'DESC', // Dalam urutan menurun (descending)
-                                    'paged' => $paged // Parameter untuk pagination
-                                );
+                        <div class="col-lg-12">
+                            <div class="row">
+                                    <?php
+                                    $author_id = get_query_var('author');
+                                    $author_slug = get_query_var('author_name');
+                                    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+                                    $args = array(
+                                        'category_name'     => 'tv-news', // Ganti 'nama-kategori' dengan slug kategori yang diinginkan
+                                        'posts_per_page'    => 6, // Menampilkan 6 posting
+                                        'orderby'           => 'date', // Mengurutkan berdasarkan tanggal
+                                        'order'             => 'DESC', // Dalam urutan menurun (descending)
+                                        'paged'             => $paged,
+                                    );
 
-                                $query = new WP_Query($args);
+                                    $query = new WP_Query($args);
 
-                                if ($query->have_posts()) :
-                                    while ($query->have_posts()) : $query->the_post(); ?>
-                                    <div class="col-lg-4">
-                                        <article class="post-block-style-wrapper post-block-template-one post-block-template-medium mb-24">
-                                            <div class="post-block-style-inner">
-                                                <div class="post-block-media-wrap">
-                                                    <a href="<?php the_permalink(); ?>">
-                                                        <?php
-                                                        if (has_post_thumbnail()) {
-                                                            the_post_thumbnail('thumbnail');
-                                                        } else {
-                                                            echo '<img src="' . get_template_directory_uri() . '/assets/media/default-thumbnail.jpg" alt="Post title">';
-                                                        }
-                                                        ?>
-                                                    </a>
-                                                </div>
-                                                <div class="post-block-content-wrap">
-                                                    <div class="post-item-title">
-                                                        <h2 class="post-title">
-                                                            <a href="<?php the_permalink(); ?>"><?php echo substr(get_the_title(), 0, 60); ?><?= strlen(get_the_title()) > 30 ? '...' : ''; ?></a>
-                                                        </h2>
+                                    if ($query->have_posts()) :
+                                        while ($query->have_posts()) : $query->the_post(); ?>
+                                           <div class="col-lg-4">
+                                            <article class="post-block-style-wrapper post-block-template-one post-block-template-medium mb-24">
+                                                <div class="post-block-style-inner">
+                                                    <div class="post-block-media-wrap">
+                                                        <a href="<?php the_permalink(); ?>">
+                                                            <?php
+                                                            if (has_post_thumbnail()) {
+                                                                the_post_thumbnail('thumbnail');
+                                                            } else {
+                                                                echo '<img src="' . get_template_directory_uri() . '/assets/media/default-thumbnail.jpg" alt="Post title">';
+                                                            }
+                                                            ?>
+                                                        </a>
                                                     </div>
-                                                    <div class="post-excerpt-box">
-                                                        <p><?php echo substr(get_the_excerpt(), 0, 30); ?><?= strlen(get_the_excerpt()) > 70 ? '...' : ''; ?></p>
-                                                    </div>
-                                                    <div class="post-bottom-meta-list">
-                                                        <div class="post-meta-author-box">
-                                                            By <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a>
+                                                    <div class="post-block-content-wrap">
+                                                        <div class="post-item-title">
+                                                            <h2 class="post-title">
+                                                                <a href="<?php the_permalink(); ?>"><?php echo substr(get_the_title(), 0, 60); ?><?= strlen(get_the_title()) > 30 ? '...' : ''; ?></a>
+                                                            </h2>
                                                         </div>
-                                                        <div class="post-meta-date-box">
-                                                            <?php echo get_the_date(); ?>
+                                                        <div class="post-excerpt-box">
+                                                            <p><?php echo substr(get_the_excerpt(), 0, 30); ?><?= strlen(get_the_excerpt()) > 70 ? '...' : ''; ?></p>
+                                                        </div>
+                                                        <div class="post-bottom-meta-list">
+                                                            <div class="post-meta-author-box">
+                                                                By <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a>
+                                                            </div>
+                                                            <div class="post-meta-date-box">
+                                                                <?php echo get_the_date(); ?>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </article>
                                             </div>
-                                        </article>
-                                    </div>
-                                    <?php endwhile;
-                                    wp_reset_postdata();
-                                else :
-                                    echo 'Tidak ada posting yang ditemukan.';
+                                        <?php endwhile;
+                                        wp_reset_postdata();
+                                    else :
+                                        echo 'Tidak ada posting yang ditemukan.';
                                 endif;
                             ?>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="blog-pagination-area mt-40">
-                                    <?php mg_custom_pagination(); ?>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="blog-pagination-area mt-40">
+                                        <?php mg_custom_pagination(); ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>

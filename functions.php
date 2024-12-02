@@ -19,4 +19,4 @@ include_once(get_template_directory().'/includes/func/mg-custom-post-viewer.php'
 include_once(get_template_directory().'/includes/func/mg-xendit.php');
 include_once(get_template_directory().'/includes/customizer/mg-menu-suport.php');
 include_once(get_template_directory().'/includes/customizer/mg-theme-customizer-advertisement.php');
-
+include_once(get_template_directory().'/includes/func/mg-order.php');

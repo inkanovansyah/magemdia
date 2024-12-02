@@ -38,7 +38,7 @@
                         
                         <div class="col-lg-12 single-blog-content">
                             <div class="mb-4">
-                                <a href="<?php echo wc_get_cart_url().'/category/order'?>" class="tp-header__bars" style="color: white;">
+                                <a href="<?php echo wc_get_cart_url().'/order'?>" class="tp-header__bars" style="color: white;">
                                     Keranjang
                                     (<?php echo WC()->cart->get_cart_contents_count(); ?>)
                                     <span class="fas fa-shopping-cart"></span> 

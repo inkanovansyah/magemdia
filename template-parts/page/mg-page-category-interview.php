@@ -108,7 +108,7 @@
                                     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
                                     $args = array(
-                                        'category_name'     => 'front-end', // Ganti 'nama-kategori' dengan slug kategori yang diinginkan
+                                        'category_name'     => 'interview', // Ganti 'nama-kategori' dengan slug kategori yang diinginkan
                                         'posts_per_page'    => 6, // Menampilkan 6 posting
                                         'orderby'           => 'date', // Mengurutkan berdasarkan tanggal
                                         'order'             => 'DESC', // Dalam urutan menurun (descending)

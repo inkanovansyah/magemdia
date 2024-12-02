@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-4 mb-4">
     <div class="mt-4">
         <form class="woocommerce-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
             <?php
@@ -83,34 +83,62 @@
                     </tbody>
                 </table>
             </div>
-            <div class="cart-total float-right"> <!-- Tambahkan kelas float-right untuk memindahkan elemen ke kanan -->
-                <?php
-                // Mendapatkan total belanja termasuk biaya pengiriman
-                $totals = WC()->cart->get_totals();
-                $total = isset( $totals['total'] ) ? $totals['total'] : '';
-                $shipping_total = isset($totals['shipping_total']) ? $totals['shipping_total'] : '';
-                ?>
-                <h4>Total Belanja: <?php echo $total; ?></h4>
-                <p>Biaya Pengiriman: <?php echo $shipping_total; ?></p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-8">
+                    </div>
+                    <div class="col-4">
+                        <div class="coupon mt-3">
+                            <label for="coupon_code"><?php esc_html_e( 'Coupon:', 'woocommerce' ); ?></label>
+                            <input type="text" name="coupon_code" class="form-control mt-2 col-4" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Enter coupon code', 'woocommerce' ); ?>" />
+                            <button type="submit" class="btn btn-secondary mt-2" name="apply_coupon"><?php esc_html_e( 'Apply Coupon', 'woocommerce' ); ?></button>
+                            <?php do_action( 'woocommerce_cart_coupon' ); ?>
+                        </div>
+                        <!-- Bagian Shipping -->
+                        <div class="shipping mt-4">
+                            <h3><?php esc_html_e( 'Shipping', 'woocommerce' ); ?></h3>
+                            <?php woocommerce_shipping_calculator(); ?>
+                        </div>
+                        <div class="cart-total float-right"> <!-- Tambahkan kelas float-right untuk memindahkan elemen ke kanan -->
+                            <?php
+                            // Mendapatkan total belanja termasuk biaya pengiriman
+                            $totals = WC()->cart->get_totals();
+                            $total = isset( $totals['total'] ) ? $totals['total'] : '';
+                            $shipping_total = isset($totals['shipping_total']) ? $totals['shipping_total'] : '';
+                            ?>
+                            <h4>Total Belanja: <?php echo $total; ?></h4>
+                            <p>Biaya Pengiriman: <?php echo $shipping_total; ?></p>
+                        </div>
+
+                        <?php
+                            do_action( 'woocommerce_cart_contents' );
+                        ?>
+
+                        <div class="cart-actions float-right"> <!-- Tambahkan kelas float-right untuk memindahkan elemen ke kanan -->
+                            <?php do_action( 'woocommerce_cart_actions' ); ?>
+
+                            <?php wp_nonce_field( 'woocommerce-cart', 'woocommerce-cart-nonce' ); ?>
+                            <button type="submit" class="btn btn-primary update-cart" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>"><?php esc_html_e( 'Update cart', 'woocommerce' ); ?></button>
+
+                            <?php do_action( 'woocommerce_cart_actions' ); ?>
+                            <?php wp_nonce_field( 'woocommerce-cart', 'woocommerce-cart-nonce' ); ?>
+
+                            <button 
+                                type="submit" 
+                                class="btn btn-success proceed-checkout" 
+                                name="proceed" 
+                                onclick="window.location.href='<?php echo esc_url( wc_get_checkout_url() ); ?>'"
+                            >
+                                <?php esc_html_e( 'Proceed to checkout', 'woocommerce' ); ?>
+                            </button>
+
+                        </div>
+                
+                        <?php do_action( 'woocommerce_after_cart_table' ); ?>
+                                </div>
+                            </div>
+                        </div>
             </div>
-
-            <?php
-                do_action( 'woocommerce_cart_contents' );
-            ?>
-
-            <div class="cart-actions float-right"> <!-- Tambahkan kelas float-right untuk memindahkan elemen ke kanan -->
-                <?php do_action( 'woocommerce_cart_actions' ); ?>
-
-                <?php wp_nonce_field( 'woocommerce-cart', 'woocommerce-cart-nonce' ); ?>
-                <button type="submit" class="btn btn-primary update-cart" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>"><?php esc_html_e( 'Update cart', 'woocommerce' ); ?></button>
-
-                <?php do_action( 'woocommerce_cart_actions' ); ?>
-                <?php wp_nonce_field( 'woocommerce-cart', 'woocommerce-cart-nonce' ); ?>
-
-                <button type="submit" class="btn btn-success proceed-checkout" name="proceed" value="<?php esc_attr_e( 'Proceed to checkout', 'woocommerce' ); ?>"><?php esc_html_e( 'Proceed to checkout', 'woocommerce' ); ?></button>
-            </div>
-            
-            <?php do_action( 'woocommerce_after_cart_table' ); ?>
         </form>
     </div>
 </div>

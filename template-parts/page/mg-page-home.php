@@ -321,7 +321,7 @@
                         <div class="col-lg-12">
                             <div class="section-title">
                                 <h2 class="title-block">
-                                    Paling Movie
+                                    Movie Netflix Trending 
                                 </h2>
                             </div>
                         </div>
@@ -331,7 +331,7 @@
                             <?php
                                 // Query for the most commented post
                                 $args = array(
-                                   'category_name' => 'movie-malem-minggu', // Fetch posts from the "movie-malem-minggu" category
+                                   'tag' => 'netflix-trending', // Fetch posts from the "movie-malem-minggu" category
                                     'posts_per_page' => 1,
                                     'meta_key' => 'post_views_count',
                                     'orderby' => 'meta_value_num',
@@ -419,7 +419,7 @@
                         <div class="col-lg-12">
                             <div class="section-title">
                                 <h2 class="title-block">
-                                    Paling Front End
+                                    Anime Netflix
                                 </h2>
                             </div>
                         </div>
@@ -430,7 +430,7 @@
                             $args = array(
                                 'post_type'      => 'post',
                                 'posts_per_page' => 3,
-                                'category_name'  => 'front-end', // Change 'front-end' to your desired category slug
+                                'tag'            => 'anime-netflix',  // Change 'front-end' to your desired category slug
                                 'meta_key'       => 'post_views_count',
                                 'orderby'        => 'meta_value_num',
                                 'order'          => 'DESC', // Order by most views
