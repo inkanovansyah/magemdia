@@ -276,9 +276,7 @@
                                     }
                                     ?>
                                 <div class="ads-widget mt-40">
-                                    <a href="post-single.html">
-                                        <img src="<?php echo get_template_directory_uri() .'/assets/media/ads-sidebar.png'?>" alt="Advertisement">
-                                    </a>
+                                    <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_sidebar_ads_2')) ?>
                                 </div>
                             </div>
                             </div>

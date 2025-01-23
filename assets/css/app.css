@@ -91,6 +91,88 @@ body {
     font-size: var(--font-size-b1);
     background-color: #131313;
 }
+.movie-slider {
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+
+  .slick-slide {
+    text-align: center;
+    padding: 10px;
+    margin-right: 15px; /* Jarak antar card pada setiap slide */
+  }
+
+  .movie-card {
+    margin-right: 15px; /* Jarak antar card di kanan */
+    background-color: #333;
+    color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .movie-card img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .movie-card h5 {
+    margin: 10px 0 5px;
+  }
+
+  .movie-card p {
+    margin: 0;
+    font-size: 14px;
+  }
+  /* Custom styling for Slick Carousel */
+    .slick-prev, .slick-next {
+        font-size: 24px; /* Ukuran font untuk ikon */
+        color: black; /* Warna ikon */
+        background-color: white; /* Warna latar belakang tombol */
+        border-radius: 50%; /* Bentuk tombol menjadi lingkaran */
+        width: 40px; /* Lebar tombol */
+        height: 40px; /* Tinggi tombol */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1; /* Agar tombol tidak tertutup oleh elemen lain */
+    }
+  
+    .slick-prev {
+        left: -50px; /* Posisikan tombol prev di kiri */
+    }
+    
+    .slick-next {
+        right: -50px; /* Posisikan tombol next di kanan */
+    }
+    
+    /* Styling untuk pagination */
+    .slick-dots {
+        bottom: -30px; /* Posisikan pagination lebih rendah */
+        display: flex;
+        justify-content: center;
+    }
+    
+    .slick-dots li button {
+        background-color: white; /* Latar belakang putih */
+        border-radius: 50%; /* Tombol pagination menjadi lingkaran */
+        width: 10px; /* Ukuran tombol */
+        height: 10px; /* Ukuran tombol */
+        border: 2px solid black; /* Border hitam */
+        margin: 0 5px; /* Jarak antar tombol pagination */
+        transition: background-color 0.3s ease; /* Transisi saat hover */
+    }
+    
+    .slick-dots li.slick-active button {
+        background-color: black; /* Warna latar belakang tombol aktif */
+    }
+    
+    .slick-dots li button:hover {
+        background-color: black; /* Warna latar belakang tombol saat hover */
+    }
+    
+
 
 h1 {
     font-size: 48px;

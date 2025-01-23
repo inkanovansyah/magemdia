@@ -109,13 +109,13 @@
                             $post_author_id = get_the_author_meta('ID');
                             $post_author_name = get_the_author();
                             $post_author_url = get_author_posts_url($post_author_id);
+                            $post_views = get_post_meta($post_id, 'post_views_count', true) ?: 0; // Ganti 'post_views_count' dengan meta key yang Anda gunakan
+                            
                         ?>
                         <div class="post-single-wrapper">
                             <div class="post-cat-box">
                                 <?php echo get_the_category_list(', ', '', $post_id); ?>
                             </div>
-                        
-
                             <h1 class="post-title">
                                 <?php echo $post_title; ?>
                             </h1>
@@ -124,7 +124,7 @@
                                     $tags = get_the_tags();
                                     if ($tags) {
                                         foreach ($tags as $tag) {
-                                            echo '<a href="#">' . $tag->name . '</a>';
+                                            echo '<a href="' . get_tag_link($tag->term_id) . '" class="badge text-bg-success" style="margin-right: 2px;">' . $tag->name . '</a>';
                                         }
                                     }
                                 ?>
@@ -136,6 +136,10 @@
                                     </div>
                                     <div class="post-meta-date-box">
                                         <?php echo $post_date; ?>
+                                    </div>
+                                    <div class="post-meta-date-box">
+                                        <i class="fa fa-eye" aria-hidden="true"></i> <!-- Ikon mata dari Font Awesome -->
+                                        <?php echo number_format($post_views); ?> views
                                     </div>
                                 </div>
                                 <div class="post-meta-social">
@@ -208,6 +212,7 @@
                                             <div class="comment-list">
                                                 <h4 class="title mt-4">Comment</h4>
                                                 <?php
+                                                    $commenter = wp_get_current_commenter();
                                                     // Get comments
                                                     comment_form(array(
                                                         'title_reply' => '',

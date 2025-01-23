@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <?php
 wp_head();
-
 get_header();
-
-
 ?>
     <?php
         if (is_front_page()) {

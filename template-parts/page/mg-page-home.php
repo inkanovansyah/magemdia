@@ -8,7 +8,7 @@
 ?>
 
         <!-- Site Wrapper -->
-        <div id="main-wrapper" class="main-wrapper">
+        <d id="main-wrapper" class="main-wrapper">
             
             <div class="tp-offcanvas-area">
                 <div class="tpoffcanvas">
@@ -97,7 +97,8 @@
                 </div>
             </div>
             <div class="body-overlay"></div>
-            <!-- tp-offcanvus-area-end -->
+            <!-- Advertisement-area-start -->
+           
             <section class="ads-area mt-20 mb-20">
                 <div class="container">
                     <div class="row">
@@ -105,13 +106,15 @@
                             <h3 class="ads-caption d-none">Advertisement</h3>
                             <div class="ads-image">
                                 <a href="post-single.html">
-                                <img src="<?php echo get_template_directory_uri() .'/assets/media/ads-full-1.png'?>" alt="Ads">
+                                <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_header_ads')) ?>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
+         
+            <!-- Advertisement-area-end -->
             <section class="blog-hero-area mt-30">
                 <div class="container">
                     <div class="row">
@@ -289,32 +292,68 @@
                             </div>
 
                             <div class="ads-widget mt-40">
-                                <a href="post-single.html">
-                                <img src="<?php echo get_template_directory_uri() .'/assets/media/ads-sidebar-1.png'?>" alt="Advertisement">
-                                </a>
+                            <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_sidebar_ads_1')) ?>
                             </div>
+                            <!-- start imd  -->
+                                <?php if (get_theme_mod('mg_theme_customizer_control_home_widget_1')) : ?>
+                                    <section class=" mt-20 mb-20">
+                                        <div class="container">
+                                            <h3 class="ads-caption d-none">Advertisement</h3>
+                                        </div>
+                                        <div>
+                                        <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_home_widget_1')) ?>
+                                        </div>
+                                    </section>
+                                <?php endif ?> 
+                            <!-- end imdb -->
                         </div>
                     </div>
+                </div> 
+            </section>
+            <section class="blog-hero-area mt-30">
+                <div class="container">
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <h2 class="title-block">
+                                Movie PlayNow Bioskop
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                <div class="movie-slider" id="movie-slider">
+                    <!-- Movie cards will be dynamically added here -->
+                </div>
+                    <!-- <div class="row">
+                            <div class="swiper">
+                                <div class="swiper-wrapper" id="movie-widget"> -->
+                                            <!-- Cards will be dynamically inserted here -->
+                                <!-- </div> -->
+                                <!-- Add Pagination -->
+                                <!-- <div class="swiper-pagination"></div> -->
+                                <!-- Add Navigation -->
+                                <!-- <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                            </div>
+                        </div> -->
                 </div>
             </section>
             <div class="section-divider mt-20 mb-20"></div>
             
+
             <section class="ads-area mt-20 mb-20">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <h3 class="ads-caption d-none">Advertisement</h3>
                             <div class="ads-image">
-                                <a href="post-single.html">
-                                <img src="<?php echo get_template_directory_uri() .'/assets/media/ads-full-1.png'?>" alt="Ads">
-                                </a>
+                                <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_header_ads')) ?>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-
-            
+          
             <section class="most-popular-area mt-60">
                 <div class="container">
                     <div class="row">
@@ -481,7 +520,12 @@
                     </div>
                 </div>
             </section>
-            <section class="video-posts-area pt-80 pb-80 mt-80">
+            <section class="most-popular-area pt-40 pb-40 mt-40">
+                <div class="container">
+                    <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_home_socialmedia_feed')) ?>
+                </div>
+            </section>
+            <section class="video-posts-area pt-40 pb-40 mt-40">
             <div class="container">
                     <div class="row">
                         <div class="col-lg-7">
