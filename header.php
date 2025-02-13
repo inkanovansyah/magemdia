@@ -1,25 +1,20 @@
-<!DOCTYPE html>
+
 <?php
   
 ?>
+
 
 <html lang="id">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       
-
-            <!-- Meta Description dari Yoast -->
-       
+        <!-- Meta Description dari Yoast -->
         <?php
         wp_head();
         ?>
-       
-        <!-- Meta Data -->
-        <link rel="shortcut icon" type="image/x-icon" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/media/favicon.png">
-        <title><?php wp_title('MAGE-MEDIA', '|', true, 'right'); ?></title>
-        <!-- Google tag (gtag.js) -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script> -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-97QB49NB8E"></script>
         <script>
             window.dataLayer = window.dataLayer || [];

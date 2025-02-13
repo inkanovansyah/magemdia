@@ -27,7 +27,7 @@ function mg_theme_set_post_view() {
         update_post_meta($post_id, $key, $count);
         
         // Set cookie untuk menandai bahwa pengunjung telah melihat postingan ini
-        setcookie('viewed_post_' . $post_id, '1', time() + 3600, COOKIEPATH, COOKIE_DOMAIN);
+    
     }
 }
 

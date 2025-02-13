@@ -31,7 +31,6 @@ data-full-width-responsive="false">
             'priority' => 126,
         )
     );
-   
     $wp_customize->add_setting('mg_theme_customizer_control_header_ads', array());
     $wp_customize->add_control('mg_theme_customizer_control_header_ads', array(
         'label' => 'Header Ads',

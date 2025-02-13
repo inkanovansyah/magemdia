@@ -1,373 +1,184 @@
-<?php
-$pageTagID = get_queried_object()->term_id;
-
-$current_page = get_query_var('paged');
-$current_page = max(1, $current_page);
-
-$per_page = 8;
-$offset_start = 3;
-$offset = ($current_page - 1) * $per_page + $offset_start;
-
-?>
-<div class="vg_navbar_container--divider">
-</div>
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <?php echo do_shortcode(get_theme_mod('vg_theme_customizer_control_header_ads')); ?>
-        </div>
-    </div>
-</div>
-<main class="vg--main-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <?php vg_custom_breadcrumbs() ?>
-            </div>
-            <div class="col-12">
-                <div class="d-flex align-items-strecth mb-3">
-                    <div class="align-self-center">
-                        <span class="vg_accent type__bar hi3"></span>
-                    </div>
-                    <div class="d-flex align-items-center w-100">
-                        <h1 class="font-weight-bold mb-0 mr-4" style="font-size: 32px;"><?php echo single_cat_title() ?></h1>
+<div class="theme-breadcrumb-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                        <?php mg_custom_breadcrumbs() ?>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- ris desktop-->
-            <?php if (!wp_is_mobile()) : ?>
-                <div class="col-lg-8">
+            <div class="theme-blog-page-area mb-80">
+                <div class="container">
                     <div class="row">
-                        <!-- heading -->
-                        <div class="col-12 mb-4">
-                            <div class="swiper-container categoryHeadlineSwiper">
-                                <div class="swiper-wrapper">
-                                    <?php
-                                    $catPostQuery = new WP_Query(array('posts_per_page' => 3, 'tag_id' => $pageTagID));
-                                    while ($catPostQuery->have_posts()) {
-                                    ?>
-                                        <?php $catPostQuery->the_post() ?>
-                                        <div class="swiper-slide">
-                                            <div style="position: relative;border-radius: 16px;overflow: hidden;">
-                                                <a href="<?php the_permalink() ?>">
-                                                    <figure class="mb-0">
-                                                        <?php the_post_thumbnail('small', array('class' => 'img-fluid w-100 rounded_16px')); ?>
-                                                    </figure>
-                                                </a>
+                        <div class="col-lg-8 mb-4">
+                            <?php 
+                            $tag_slug = get_query_var('tag'); // Ambil tag dari query vars
 
-                                                <div style="left: 0;right: 0;bottom: 0;background:linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);;position: absolute;display: flex;padding: 24px 24px;flex-direction: column;">
-                                                    <div class="d-flex align-items-start w-100">
-                                                        <div class="py-2">
-                                                            <?php
+                            if ($tag_slug) {
+                                $tag_obj = get_term_by('slug', $tag_slug, 'post_tag'); // Ambil objek tag berdasarkan slug
+                                if ($tag_obj) {
+                                    echo '<h2 class="tag-title">'.esc_html($tag_obj->name).'</h2>';
+                                }
+                            } else {
+                                echo '<h2 class="tag-title">Semua Postingan</h2>';
+                            }
+                            ?>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                <?php
+                                    // Ambil ID, slug author, dan tag dari query vars
+                                    $author_id = get_query_var('author');
+                                    $author_slug = get_query_var('author_name');
+                                    $tag_slug = get_query_var('tag'); // Ambil tag dari URL
+                                    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
-                                                            foreach (get_the_category() as $cat) {
-                                                                echo '  <a href="' . get_category_link($cat) . '" class="vg_pill_cat">' . $cat->name . '</a>';
-                                                            };
-                                                            ?>
+                                    $args = array(
+                                        'post_type'      => 'post',
+                                        'posts_per_page' => 7,
+                                        'paged'          => $paged,
+                                        'orderby'        => 'date',
+                                        'order'          => 'DESC',
+                                    );
+
+                                    // Filter berdasarkan author
+                                    if ($author_id) {
+                                        $args['author'] = $author_id;
+                                    } elseif ($author_slug) {
+                                        $args['author_name'] = $author_slug;
+                                    }
+
+                                    // Filter berdasarkan tag
+                                    if ($tag_slug) {
+                                        $args['tag'] = $tag_slug; // Tambahkan filter tag ke query
+                                    }
+
+                                    $the_query = new WP_Query($args);
+
+                                    if ($the_query->have_posts()) :
+                                        while ($the_query->have_posts()) : $the_query->the_post();
+                                ?>
+                                            <article class="post-block-style-wrapper post-block-template-four">
+                                                <div class="post-block-style-inner post-block-list-style-inner">
+                                                    <div class="post-block-content-wrap">
+                                                        <div class="post-item-title">
+                                                            <h2 class="post-title">
+                                                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                                            </h2>
+                                                        </div>
+                                                        <div class="post-excerpt-box">
+                                                            <p><?php echo wp_trim_words(get_the_excerpt(), 20, '...'); ?></p>
+                                                        </div>
+                                                        <div class="post-bottom-meta-list">
+                                                            <div class="post-meta-author-box">
+                                                                By <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a>
+                                                            </div>
+                                                            <div class="post-meta-date-box">
+                                                                <?php echo get_the_date('M d'); ?>
+                                                            </div>
+                                                            <div class="post-meta-tags-box">
+                                                                <?php the_tags('<span class="post-tags">Tags: ', ', ', '</span>'); ?>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <h3 class="h5 font-os-bold mb-0 mb-md-3">
-                                                        <a class="text-white" href="<?php the_permalink() ?>">
-                                                            <?php the_title() ?>
+                                                    <div class="post-block-media-wrap">
+                                                        <a href="<?php the_permalink(); ?>">
+                                                            <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>" alt="<?php the_title(); ?>">
                                                         </a>
-                                                    </h3>
-
-                                                    <div class="d-flex align-items-strecth mb-2 text-white">
-
-                                                        <a class="text-white" href="<?php echo get_author_posts_url(get_the_author_meta('ID')) ?>">
-                                                            <?php echo get_the_author() ?>
-                                                        </a>
-                                                        <span class="px-1 text-white">
-                                                            -
-                                                        </span>
-                                                        <span class="text-white">
-                                                            <?php echo get_the_date(); ?>
-                                                        </span>
                                                     </div>
                                                 </div>
-
-                                            </div>
-                                        </div>
-                                    <?php }
-                                    wp_reset_query() ?>
-                                </div>
-
-                            </div>
-                            <div class="vg_swiper-scroll--pnbtn prevBtn categoryHeadlineSwiperprev">
-                                <i class="fa fa-chevron-left"></i>
-                            </div>
-                            <div class="vg_swiper-scroll--pnbtn nextBtn categoryHeadlineSwipernext">
-                                <i class="fa fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <!-- end heading -->
-
-                        <!-- berita terkini -->
-                        <div class="col-12">
-                            <div class="d-flex align-items-strecth mb-3">
-                                <div class="d-flex align-items-center w-100">
-                                    <h3 class="font-weight-bold mb-0 mr-4" style="font-size: 24px;"></h3>
+                                            </article>
+                                    <?php
+                                        endwhile;
+                                    else :
+                                    ?>
+                                    <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+                                    <?php
+                                    endif;
+                                    ?>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="blog-pagination-area mt-40">
+                                        <?php mg_custom_pagination(); ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="blog-pagination-area mt-40">
+                                        <ul class="page-numbers">
+                                            <li><span aria-current="page" class="page-numbers current">1</span></li>
+                                            <li><a class="page-numbers" href="javascript:void(0)">2</a></li>
+                                            <li><a class="next page-numbers" href="javascript:void(0)"><i class="icofont-long-arrow-right"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div> -->
                         </div>
-                        <?php
-                        $catPostQuery = new WP_Query(array(
-                            'posts_per_page' => $per_page,
-                            'offset' => $offset,
-                            'paged' => $current_page,
-                            'tag_id' => $pageTagID,
-                        ));
+                        <div class="col-lg-4">
+                            <div class="sidebar blog-sidebar">
+                                <div class="section-title">
+                                    <h2 class="title-block">
+                                        Popular on MAGEMEDIA
+                                    </h2>
+                                </div>
+                                <?php
+                                    $args = array(
+                                        'post_type'      => 'post', 
+                                        'posts_per_page' => 6,
+                                        'meta_key'       => 'post_views_count',
+                                        'orderby'        => 'meta_value_num',
+                                        'order'          => 'DESC',
+                                        'category_name'  => 'movie-malem-minggu', // Change this to the desired category
+                                    );
 
-                        while ($catPostQuery->have_posts()) {
-                        ?>
-                            <?php $catPostQuery->the_post() ?>
-                            <div class="col-lg-6 mb-4">
-                                <div style="position: relative;border-radius: 16px;overflow: hidden;">
-                                    <div class="d-flex align-items-start w-100" style="position: absolute;top: 8px;left: 16px;">
-                                        <div class="py-2">
-                                            <?php
+                                    $the_query = new WP_Query($args);
 
-                                            foreach (get_the_category() as $cat) {
-                                                echo '  <a href="' . get_category_link($cat) . '" class="vg_pill_cat">' . $cat->name . '</a>';
-                                            };
+                                    if ($the_query->have_posts()) :
+                                        while ($the_query->have_posts()) : $the_query->the_post();
+
+                                            // Get the full title of the post
+                                            $full_title = get_the_title();
+
+                                            // Truncate the title to a shorter length if it exceeds 32 characters
+                                            $short_title = mb_strlen($full_title) > 32 ? mb_substr($full_title, 0, 28) . ' [..]' : $full_title;
                                             ?>
-                                        </div>
-                                    </div>
-                                    <a href="<?php the_permalink() ?>">
-                                        <figure class="mb-0">
-                                            <?php the_post_thumbnail('small', array('class' => 'img-fluid w-100 rounded_16px')); ?>
-                                        </figure>
-                                    </a>
-
-                                    <div style="left: 0;right: 0;bottom: 0;background:linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);;position: absolute;display: flex;padding: 24px 24px;flex-direction: column;">
-                                        <h3 class="h5 font-os-bold mb-0">
-                                            <a class="text-white" href="<?php the_permalink() ?>">
-                                                <?php the_title() ?>
-                                            </a>
-                                        </h3>
-                                        <div>
-                                            <a class="text-white fs-12" href="<?php echo get_author_posts_url(get_the_author_meta('ID')) ?>">
-                                                <?php echo get_the_author() ?>
-                                            </a>
-                                            <span class="px-1 text-white fs-12">
-                                                -
-                                            </span>
-                                            <span class="text-white fs-12">
-                                                <?php echo get_the_date(); ?>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        <?php }
-                        wp_reset_query() ?>
-                        <!-- end berita terkini -->
-                        <?php vg_custom_pagination() ?>
-                    </div>
-                </div>
-            <?php endif; ?>
-            <!-- end ris desktop -->
-
-
-            <!-- Start RIS mobile -->
-            <?php if (wp_is_mobile()) : ?>
-                <div class="col-lg-8">
-                    <div class="row">
-                        <!-- heading -->
-                        <div class="col-12 mb-4">
-                            <div class="swiper-container categoryHeadlineSwiper">
-                                <div class="swiper-wrapper">
-                                    <?php
-                                    $catPostQuery = new WP_Query(array('posts_per_page' => 3, 'tag_id' => $pageTagID));
-                                    while ($catPostQuery->have_posts()) {
-                                    ?>
-                                        <?php $catPostQuery->the_post() ?>
-                                        <div class="swiper-slide">
-                                            <div style="position: relative;border-radius: 16px;overflow: hidden;">
-                                                <a href="<?php the_permalink() ?>">
-                                                    <figure class="mb-0">
-                                                        <?php the_post_thumbnail('small', array('class' => 'img-fluid w-100 rounded_16px')); ?>
-                                                    </figure>
-                                                </a>
-
-                                                <div style="left: 0;right: 0;bottom: 0;background:linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);;position: absolute;display: flex;padding: 24px 24px;flex-direction: column;">
-                                                    <div class="d-flex align-items-start w-100">
-                                                        <div class="py-2">
-                                                            <?php
-
-                                                            foreach (get_the_category() as $cat) {
-                                                                echo '  <a href="' . get_category_link($cat) . '" class="vg_pill_cat">' . $cat->name . '</a>';
-                                                            };
-                                                            ?>
+                                            <article class="post-block-style-wrapper post-block-template-two most-read-block-list">
+                                                <div class="post-block-style-inner post-block-list-style-inner">
+                                                    <div class="post-block-media-wrap">
+                                                        <a href="<?php the_permalink(); ?>">
+                                                            <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>" alt="<?php the_title(); ?>">
+                                                        </a>
+                                                    </div>
+                                                    <div class="post-block-content-wrap">
+                                                        <div class="post-item-title">
+                                                            <h2 class="post-title">
+                                                                <a href="<?php the_permalink(); ?>"><?php echo $short_title; ?></a>
+                                                            </h2>
+                                                        </div>
+                                                        <div class="post-bottom-meta-list">
+                                                            <div class="post-meta-author-box">
+                                                                <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a>
+                                                            </div>
+                                                            <div class="post-meta-date-box">
+                                                                <?php echo get_the_date('M d'); ?>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <h3 class="h5 font-os-bold mb-0 mb-md-3">
-                                                        <a class="text-white" href="<?php the_permalink() ?>">
-                                                            <?php the_title() ?>
-                                                        </a>
-                                                    </h3>
-
-                                                    <div class="d-flex align-items-strecth mb-2 text-white">
-
-                                                        <a class="text-white" href="<?php echo get_author_posts_url(get_the_author_meta('ID')) ?>">
-                                                            <?php echo get_the_author() ?>
-                                                        </a>
-                                                        <span class="px-1 text-white">
-                                                            -
-                                                        </span>
-                                                        <span class="text-white">
-                                                            <?php echo get_the_date(); ?>
-                                                        </span>
-                                                    </div>
                                                 </div>
-
-                                            </div>
-                                        </div>
-                                    <?php }
-                                    wp_reset_query() ?>
-                                </div>
-
-                            </div>
-                            <div class="vg_swiper-scroll--pnbtn prevBtn categoryHeadlineSwiperprev">
-                                <i class="fa fa-chevron-left"></i>
-                            </div>
-                            <div class="vg_swiper-scroll--pnbtn nextBtn categoryHeadlineSwipernext">
-                                <i class="fa fa-chevron-right"></i>
-                            </div>
-                        </div>
-                        <!-- end heading -->
-                        <div class="col-12 mb-4">
-                            <div class="vg_list-news-small--wrapper">
-                                <div class="vg_list-news-small--wrapper__article-list-container">
-                                    <?php $latestMobileCat = new WP_Query(array(
-                                        'posts_per_page' => $per_page,
-                                        'offset' => $offset,
-                                        'paged' => $current_page,
-                                        'tag_id' => $pageTagID,
-                                    ));
-                                    while ($latestMobileCat->have_posts()) { ?>
-                                        <?php $latestMobileCat->the_post() ?>
-                                        <div class="vg_list-news-small--wrapper__article">
-                                            <div class="word_container">
-                                                <h3 class="font-os-bold mb-1 fs-14">
-                                                    <a href="<?php the_permalink() ?>">
-                                                        <?php the_title() ?>
-                                                    </a>
-                                                </h3>
-                                                <div class="fs-12">
-
-                                                    <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')) ?>"> <?php the_author(); ?></a>
-                                                    <span class="px-1">
-                                                        -
-                                                    </span>
-                                                    <span>
-                                                        <?php echo get_the_date() ?>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="image_container">
-                                                <a href="<?php the_permalink() ?>">
-                                                    <?php if (has_post_thumbnail()) : ?>
-                                                        <figure class="mb-0">
-                                                            <?php the_post_thumbnail('thumbnail', array('class' => 'img-fluid w-100 rounded-lg')); ?>
-                                                            <figcaption class="mb-0 small text-secondary text-center d-none" style="font-size: 14px!important;">
-                                                                <?php the_post_thumbnail_caption() ?>
-                                                            </figcaption>
-                                                        </figure>
-                                                    <?php endif; ?>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                    <?php }
-                                    wp_reset_query()  ?>
-                                </div>
-                            </div>
-                            <?php vg_custom_pagination() ?>
-                            <div class="card shadow-sm border-0 mb-3 overflow-hidden">
-                                <?php echo get_theme_mod('vg_theme_customizer_control_sidebar_ads_1'); ?>
+                                            </article>
+                                        <?php
+                                        endwhile;
+                                        wp_reset_postdata();
+                                    else : ?>
+                                        <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+                                    <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </div>
-            <?php endif; ?>
-            <!-- end RIS mobile -->
-
-
-
-            <div class="col-lg-4">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="vg_list-news-small--wrapper">
-
-                            <div class="vg_list-news-small--wrapper__title-container">
-                                <div class="vg_accent type__circle hi2"></div>
-                                <h3 class="font-weight-bold mb-0" style="font-size: 24px;">BERITA POPULER</h3>
-                            </div>
-
-                            <div class="vg_list-news-small--wrapper__article-list-container">
-                                <?php $popularQeuerySingle = new WP_Query(array(
-                                    'posts_per_page' => 5,
-                                    'offset' => rand(1, 5),
-                                    'meta_key' => 'post_views_count',
-                                    'orderby' => array(
-                                        'date' => 'DESC',
-                                        'meta_value_num' => 'DESC',
-                                    )
-                                ));
-                                while ($popularQeuerySingle->have_posts()) { ?>
-                                    <?php $popularQeuerySingle->the_post() ?>
-                                    <div class="vg_list-news-small--wrapper__article">
-                                        <div class="word_container">
-                                            <h3 class="font-os-bold mb-1 fs-14">
-                                                <a href="<?php the_permalink() ?>">
-                                                    <?php the_title() ?>
-                                                </a>
-                                            </h3>
-                                            <div class="fs-12">
-
-                                                <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')) ?>"> <?php the_author(); ?></a>
-                                                <span class="px-1">
-                                                    -
-                                                </span>
-                                                <span>
-                                                    <?php echo get_the_date() ?>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="image_container">
-                                            <a href="<?php the_permalink() ?>">
-                                                <?php if (has_post_thumbnail()) : ?>
-                                                    <figure class="mb-0">
-                                                        <?php the_post_thumbnail('thumbnail', array('class' => 'img-fluid w-100 rounded-lg')); ?>
-                                                        <figcaption class="mb-0 small text-secondary text-center d-none" style="font-size: 14px!important;">
-                                                            <?php the_post_thumbnail_caption() ?>
-                                                        </figcaption>
-                                                    </figure>
-                                                <?php endif; ?>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                <?php }
-                                wp_reset_query()  ?>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="position: sticky;top: 128px;">
-                    <div class="col-12">
-                        <div class="card shadow-sm border-0 mb-3">
-                            <?php echo do_shortcode(get_theme_mod('vg_theme_customizer_control_sidebar_ads_2')); ?>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-
-        </div>
-    </div>
-</main>

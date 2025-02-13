@@ -16,7 +16,7 @@
                         <button class="close-btn"><i class="icofont-close"></i></button>
                     </div>
                     <div class="tpoffcanvas__logo offcanvas-logo">
-                        <a href="index.html">
+                        <a href="#">
                         <img src="<?php echo get_template_directory_uri() .'/assets/media/logo.svg'?>" alt="Logo">
                         </a>
                     </div>
@@ -292,7 +292,7 @@
                             </div>
 
                             <div class="ads-widget mt-40">
-                            <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_sidebar_ads_1')) ?>
+                                <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_sidebar_ads_1')) ?>
                             </div>
                             <!-- start imd  -->
                                 <?php if (get_theme_mod('mg_theme_customizer_control_home_widget_1')) : ?>

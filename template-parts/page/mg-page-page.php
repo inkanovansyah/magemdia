@@ -19,10 +19,8 @@
                                         'posts_per_page'         => 4, // Number of posts to show
                                         'ignore_sticky_posts'    => 1,
                                     );
-
                                     // The Query                                            
                                     $query = new WP_Query($args);
-
                                     // The Loop
                                     if ($query->have_posts()) {
                                         while ($query->have_posts()) {
@@ -87,14 +85,15 @@
             </div>
             <div class="body-overlay"></div>
             <!-- tp-offcanvus-area-end -->
+           
             <div class="post-single-area mt-60">
                 <div class="container">
                     <div class="row">
+                        <div class="col-lg-12">
+                            <?php mg_custom_breadcrumbs() ?>
+                        </div>
                         <div class="col-lg-8 single-blog-content">
                             <div class="post-block-style-inner">
-                                <div class="post-block-media-wrap location">
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.9183733507127!2d106.6743468!3d-6.2294772!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69fbd64ab483bd%3A0x585a5b9c6622b549!2sKunciran%2C%20Kec.%20Pinang%2C%20Kota%20Tangerang%2C%20Banten!5e0!3m2!1sen!2sbd!4v1672491880233!5m2!1sen!2sbd"  allowfullscreen="" aria-label="Ridgeland" loading="lazy"></iframe>
-                                </div>
                                     <?php
                                         // Mendapatkan ID posting
                                         $post_id = get_the_ID();
@@ -111,36 +110,10 @@
                                         <div class="post-cat-box">
                                             <a href="<?php echo get_permalink($post_id); ?>"><?php echo get_the_category_list(', ', '', $post_id); ?></a>
                                         </div>
-                                        <h1 class="post-title">
+                                        <h1 class="post-title mb-3">
                                         <?php echo $post_title; ?>
                                         </h1>
-                                        <div class="post-bottom-meta-list post-meta-wrapper">
-                                            <div class="post-left-details-meta">
-                                                <div class="post-meta-author-box">
-                                                    By <a href="#"><?php echo $post_author; ?></a>
-                                                </div>
-                                                <div class="post-meta-date-box">
-                                                    <?php echo $post_date; ?>
-                                                </div>
-                                            </div>
-                                            <div class="post-meta-social">
-                                                <a href="#"><i class="icofont-link"></i></a>
-                                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="post-featured-image">
-                                        <?php
-                                            // Memeriksa apakah posting memiliki gambar unggulan
-                                            if (has_post_thumbnail($post_id)) {
-                                                echo get_the_post_thumbnail($post_id, 'medium');
-                                            } else {
-                                                // Jika tidak, tampilkan gambar default
-                                                echo '<img src="' . get_template_directory_uri() . '/images/default-image.jpg" alt="Default Image">';
-                                            }
-                                        ?>
-                                        </div>
+                                        
                                         <p><?php echo $post_content; ?></p>
                                     </div>
                                 <div class="theme-blog-details">
@@ -222,10 +195,12 @@
                                 <?php
                                     // WP_Query arguments
                                     $args = array(
-                                        'post_type'              => 'post', // or 'any' if you want to include pages as well
-                                        'post_status'            => 'publish',
-                                        'posts_per_page'         => 5, // Number of posts to show
-                                        'ignore_sticky_posts'    => 1,
+                                        'post_type'           => 'post',
+                                        'post_status'         => 'publish',
+                                        'posts_per_page'      => 5, // Menampilkan 5 postingan
+                                        'meta_key'            => 'post_views_count', // Menggunakan custom field 'post_views_count'
+                                        'orderby'             => 'meta_value_num', // Mengurutkan berdasarkan nilai numerik
+                                        'order'               => 'DESC', // Urutan dari yang terbanyak ke yang terkecil
                                     );
 
                                     // The Query                                            
@@ -236,12 +211,9 @@
                                         while ($query->have_posts()) {
                                             $query->the_post();
                                             
-                                            // Assuming you have set a featured image for each post
+                                            // Mendapatkan thumbnail post
                                             $image_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
-                                            // If you have a custom field for the content title, replace 'your_custom_field_key' with the actual key
-                                            $content_title = get_post_meta(get_the_ID(), 'your_custom_field_key', true);
                                             ?>
-
                                             <article class="post-block-style-wrapper post-block-template-two most-read-block-list">
                                                 <div class="post-block-style-inner post-block-list-style-inner">
                                                     <div class="post-block-media-wrap">
@@ -262,19 +234,21 @@
                                                             <div class="post-meta-date-box">
                                                                 <?php echo get_the_date(); ?>
                                                             </div>
+                                                            <div class="post-meta-views-box">
+                                                                <span><?php echo get_post_meta(get_the_ID(), 'post_views_count', true); ?> Views</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </article>
-
                                             <?php
                                         }
                                         /* Restore original Post Data */
                                         wp_reset_postdata();
                                     } else {
-                                        // No posts found
+                                        echo '<p>Tidak ada postingan populer ditemukan.</p>';
                                     }
-                                    ?>
+                                ?>
                                 <div class="ads-widget mt-40">
                                     <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_sidebar_ads_2')) ?>
                                 </div>

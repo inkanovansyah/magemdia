@@ -3,17 +3,13 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="breadcrumb-inner">
-                                <ul>
-                                    <li>Home</li>
-                                    <li>Category</li>
-                                    <li><a href="post-single.html">Politics</a></li>
-                                </ul>
+                                <?php mg_custom_breadcrumbs() ?>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="theme-blog-page-area mb-80">
+            <div class="theme-blog-page-area mb-20">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8">
@@ -28,12 +24,43 @@
                                             <?php the_author(); ?>
                                             </h5>
                                             <p class="author-inner-text">  <?php echo get_the_author_meta('description'); ?></p>
-                                            <div class="social-share-author">
-                                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                            </div>
+                                            <?php
+                                                // Ambil informasi penulis
+                                                $author = get_queried_object(); 
+                                                $author_id = $author->ID;
+
+                                                // Ambil link media sosial dari user meta
+                                                $facebook = get_the_author_meta('facebook', $author_id);
+                                                $instagram = get_the_author_meta('instagram', $author_id);
+                                                $twitter = get_the_author_meta('twitter', $author_id);
+                                                $linkedin = get_the_author_meta('linkedin', $author_id);
+                                                ?>
+
+                                                <div class="social-share-author">
+                                                    <?php if ($facebook) : ?>
+                                                        <a href="<?php echo esc_url($facebook); ?>" target="_blank">
+                                                            <i class="fab fa-facebook-f"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($instagram) : ?>
+                                                        <a href="<?php echo esc_url($instagram); ?>" target="_blank">
+                                                            <i class="fab fa-instagram"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($twitter) : ?>
+                                                        <a href="<?php echo esc_url($twitter); ?>" target="_blank">
+                                                            <i class="fab fa-twitter"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($linkedin) : ?>
+                                                        <a href="<?php echo esc_url($linkedin); ?>" target="_blank">
+                                                            <i class="fab fa-linkedin-in"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </div>
                                         </div>
                                     </div>
                                     <?php
@@ -41,7 +68,6 @@
                                         $author_id = get_query_var('author');
                                         $author_slug = get_query_var('author_name');
                                         $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-
                                         $args = array(
                                             'post_type'      => 'post',
                                             'posts_per_page' => 7,
@@ -49,15 +75,12 @@
                                             'orderby'        => 'date',
                                             'order'          => 'DESC',
                                         );
-
                                         if ($author_id) {
                                             $args['author'] = $author_id; // Use author ID if available
                                         } elseif ($author_slug) {
                                             $args['author_name'] = $author_slug; // Use author slug if available
                                         }
-
                                         $the_query = new WP_Query($args);
-
                                         if ($the_query->have_posts()) :
                                             while ($the_query->have_posts()) : $the_query->the_post();
                                     ?>

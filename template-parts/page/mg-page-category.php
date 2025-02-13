@@ -11,9 +11,8 @@
                     <div class="tpoffcanvas__text offcanvas-content">
                         <div class="main-canvas-inner">
                             <div class="canvas-bar-post-list">
-                               <!-- Isi keranjang akan dimuat di sini -->
+                                <!-- Isi keranjang akan dimuat di sini -->
                                 <?php echo do_shortcode('[woocommerce_cart]'); ?>
-
                             </div>
                             <div class="panel-nav-social">
                                 <a href="#"><i class="icofont-facebook"></i></a>

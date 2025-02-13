@@ -4,7 +4,7 @@
                         <button class="close-btn"><i class="icofont-close"></i></button>
                     </div>
                     <div class="tpoffcanvas__logo offcanvas-logo">
-                        <a href="index.html">
+                        <a href="#">
                         <img src="<?php echo get_template_directory_uri() .'/assets/media/logo.svg'?>" alt="Logo">
                         </a>
                     </div>
@@ -81,23 +81,26 @@
             </div>
             <div class="body-overlay"></div>
             <!-- tp-offcanvus-area-end -->
-            <section class="ads-area mt-70 mb-60">
+            <section class="ads-area mt-20 mb-10">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <h3 class="ads-caption d-none">Advertisement</h3>
                             <div class="ads-image">
                                 <a href="post-single.html">
-                                <img src="<?php echo get_template_directory_uri() .'/assets/media/ads-full-1.png'?>" alt="Ads">
+                                <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_header_ads')) ?>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <div class="post-single-area mt-60">
+            <div class="post-single-area mt-30">
                 <div class="container">
                     <div class="row">
+                        <div class="col-lg-12">
+                            <?php mg_custom_breadcrumbs() ?>
+                        </div>
                         <div class="col-lg-8 single-blog-content">
                         <?php
                             // Mendapatkan ID posting
@@ -176,12 +179,43 @@
                                         <?php the_author(); ?>
                                         </h5>
                                         <p class="author-inner-text">  <?php echo get_the_author_meta('description'); ?></p>
-                                        <div class="social-share-author">
-                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i class="fab fa-instagram"></i></a>
-                                            <a href="#"><i class="fab fa-twitter"></i></a>
-                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                        </div>
+                                        <?php
+                                                // Ambil informasi penulis
+                                                $author = get_queried_object(); 
+                                                $author_id = $author->ID;
+
+                                                // Ambil link media sosial dari user meta
+                                                $facebook = get_the_author_meta('facebook', $author_id);
+                                                $instagram = get_the_author_meta('instagram', $author_id);
+                                                $twitter = get_the_author_meta('twitter', $author_id);
+                                                $linkedin = get_the_author_meta('linkedin', $author_id);
+                                                ?>
+
+                                                <div class="social-share-author">
+                                                    <?php if ($facebook) : ?>
+                                                        <a href="<?php echo esc_url($facebook); ?>" target="_blank">
+                                                            <i class="fab fa-facebook-f"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($instagram) : ?>
+                                                        <a href="<?php echo esc_url($instagram); ?>" target="_blank">
+                                                            <i class="fab fa-instagram"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($twitter) : ?>
+                                                        <a href="<?php echo esc_url($twitter); ?>" target="_blank">
+                                                            <i class="fab fa-twitter"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($linkedin) : ?>
+                                                        <a href="<?php echo esc_url($linkedin); ?>" target="_blank">
+                                                            <i class="fab fa-linkedin-in"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </div>
                                     </div>
                                 </div>
                                 <div class="theme-comment-area">
@@ -355,11 +389,10 @@
                                         </script>
                                     </div>
                                 <div class="ads-widget mt-40">
-                                    <a href="post-single.html">
-                                        <img src="<?php echo get_template_directory_uri() .'/assets/media/ads-sidebar-1.png'?>" alt="Advertisement">
-                                    </a>
+                                    <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_article_ads_middle')) ?>
                                 </div>
                                 <div class="google-adsense-widget mt-40">
+                                <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_article_ads_end')) ?>
                                     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1429656230503295"
                                         crossorigin="anonymous"></script>
                                             <!-- Horizontal iklan -->
@@ -376,7 +409,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </di>
                 </div>
             </div>
             <section class="popular-posts-column-area related-posts-wrapper mt-60 mb-50">
