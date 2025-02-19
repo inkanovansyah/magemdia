@@ -29,7 +29,7 @@ function mg_custom_pagination($pages = '', $range = 2)
 
         for ($i = 1; $i <= $pages; $i++) {
             if (1 != $pages && (!($i >= $paged + $range + 1 || $i <= $paged - $range - 1) || $pages <= $showitems)) {
-                echo ($paged == $i) ? '<li class="page-item active"><a class="page-numbers" href="#currentPage">' . $i . "</a></li>" : '<li class="page-item"><a class="page-numbers" href="' . get_pagenum_link($i) . '">' . $i . "</a> </li>";
+                echo ($paged == $i) ? '<li class="page-item current"><a class="page-numbers current" href="#currentPage">' . $i . "</a></li>" : '<li class="page-item"><a class="page-numbers" href="' . get_pagenum_link($i) . '">' . $i . "</a> </li>";
             }
         }
 
@@ -38,7 +38,7 @@ function mg_custom_pagination($pages = '', $range = 2)
         if ($paged < $pages && $showitems < $pages) echo '<li><a class="page-numbers" href="' . get_pagenum_link($paged + 1) . '"><i class="fa fa-chevron-right"></i></a></li>';
         echo "</ul>\n";
         echo '<div class="d-flex justify-content-center w-100 py-2">';
-        echo '<div class="mr-1"><b class="ml-1">' . $paged . '</b></div>';
+        echo '<div class="mr-1"><b class="mr-1">'.$paged. '</b></div>';
         echo '<div class="ml-1"> Dari <span class="text-secondary">' . $wp_query->max_num_pages . '</span> Halaman</div>';
         echo '</div>';
     }

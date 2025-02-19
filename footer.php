@@ -13,7 +13,8 @@
                             <div class="footer-menu">
                                 <ul class="footer-nav">
                                     <li><a href="<?php echo home_url();?>/privacy-policy">Privacy Policy</a></li>
-                                    <li><a href="#">Terms of Use</a></li>
+                                    <li><a href="<?php echo home_url();?>/about">About</a></li>
+                                    <li><a href="<?php echo home_url();?>/contact">Contact</a></li>
                                 </ul>
                             </div>
                         </div>

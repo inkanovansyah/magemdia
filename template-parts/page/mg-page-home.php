@@ -9,7 +9,6 @@
 
         <!-- Site Wrapper -->
         <d id="main-wrapper" class="main-wrapper">
-            
             <div class="tp-offcanvas-area">
                 <div class="tpoffcanvas">
                     <div class="tpoffcanvas__close-btn">
@@ -23,63 +22,61 @@
                     <div class="tpoffcanvas__text offcanvas-content">
                         <div class="main-canvas-inner">
                             <div class="canvas-bar-post-list">
-                               <?php
-                                    // WP_Query arguments
+                                <?php
+                                  // WP_Query arguments
                                     $args = array(
-                                        'post_type'              => 'post', // or 'any' if you want to include pages as well
-                                        'post_status'            => 'publish',
-                                        'posts_per_page'         => 4, // Number of posts to show
-                                        'ignore_sticky_posts'    => 1,
+                                      'post_type'           => 'post',  // Tipe post yang ingin ditampilkan
+                                      'post_status'         => 'publish',  // Status post harus "publish"
+                                      'posts_per_page'      => 4,  // Batasan jumlah posting yang ditampilkan
+                                      'ignore_sticky_posts' => 1,  // Mengabaikan sticky posts
+                                      'fields'              => 'ids',  // Hanya ambil ID untuk efisiensi
                                     );
-
-                                    // The Query                                            
-                                    $query = new WP_Query($args);
-
-                                    // The Loop
-                                    if ($query->have_posts()) {
-                                        while ($query->have_posts()) {
-                                            $query->the_post();
+                                  // Transient cache untuk menyimpan hasil query selama 1 jam
+                                    $cached_posts = get_transient('latest_posts_cache');
+                                    if (false === $cached_posts) {
+                                      // Jika cache tidak tersedia, lakukan query
+                                        $cached_posts = get_posts($args);
+                                      // Menyimpan hasil query dalam cache untuk 1 jam
+                                        set_transient('latest_posts_cache', $cached_posts, HOUR_IN_SECONDS);
+                                    }
+                                    if ($cached_posts) :
+                                        foreach ($cached_posts as $post_id) :
+                                            // Mengambil gambar unggulan untuk post
+                                            $image_url = get_the_post_thumbnail_url($post_id, 'full') ?: get_template_directory_uri() . '/assets/media/default.jpg';
                                             
-                                            // Assuming you have set a featured image for each post
-                                            $image_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
-                                            // If you have a custom field for the content title, replace 'your_custom_field_key' with the actual key
-                                            $content_title = get_post_meta(get_the_ID(), 'your_custom_field_key', true);
-                                            ?>
-
-                                            <article class="post-block-style-wrapper post-block-template-two most-read-block-list">
-                                                <div class="post-block-style-inner post-block-list-style-inner">
-                                                    <div class="post-block-media-wrap">
-                                                        <a href="<?php the_permalink(); ?>">
-                                                            <img src="<?php echo esc_url($image_url); ?>" alt="<?php the_title(); ?>">
-                                                        </a>
+                                            // Mengambil judul dan link untuk post
+                                            $title     = get_the_title($post_id);
+                                            $permalink = get_permalink($post_id);
+                                        ?>
+                                        <article class="post-block-style-wrapper post-block-template-two most-read-block-list">
+                                            <div class="post-block-style-inner post-block-list-style-inner">
+                                                <div class="post-block-media-wrap">
+                                                    <a href="<?php echo esc_url($permalink); ?>">
+                                                        <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($title); ?>">
+                                                    </a>
+                                                </div>
+                                                <div class="post-block-content-wrap">
+                                                    <div class="post-item-title">
+                                                        <h2 class="post-title">
+                                                            <a href="<?php echo esc_url($permalink); ?>"><?php echo esc_html($title); ?></a>
+                                                        </h2>
                                                     </div>
-                                                    <div class="post-block-content-wrap">
-                                                        <div class="post-item-title">
-                                                            <h2 class="post-title">
-                                                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                                                            </h2>
+                                                    <div class="post-bottom-meta-list">
+                                                        <div class="post-meta-author-box">
+                                                            <a href="<?php echo esc_url(get_author_posts_url(get_post_field('post_author', $post_id))); ?>">
+                                                                <?php echo esc_html(get_the_author_meta('display_name', get_post_field('post_author', $post_id))); ?>
+                                                            </a>
                                                         </div>
-                                                        <div class="post-bottom-meta-list">
-                                                            <div class="post-meta-author-box">
-                                                                <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a>
-                                                            </div>
-                                                            <div class="post-meta-date-box">
-                                                                <?php echo get_the_date(); ?>
-                                                            </div>
+                                                        <div class="post-meta-date-box">
+                                                            <?php echo esc_html(get_the_date('M d', $post_id)); ?>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </article>
-
-                                            <?php
-                                        }
-                                        /* Restore original Post Data */
-                                        wp_reset_postdata();
-                                    } else {
-                                        // No posts found
-                                    }
-                                ?>
-
+                                            </div>
+                                        </article>
+                                    <?php endforeach;
+                                        endif;
+                                    ?>
                             </div>
                             <div class="panel-nav-social">
                                 <a href="#"><i class="icofont-facebook"></i></a>
@@ -98,7 +95,6 @@
             </div>
             <div class="body-overlay"></div>
             <!-- Advertisement-area-start -->
-           
             <section class="ads-area mt-20 mb-20">
                 <div class="container">
                     <div class="row">
@@ -113,60 +109,62 @@
                     </div>
                 </div>
             </section>
-         
             <!-- Advertisement-area-end -->
             <section class="blog-hero-area mt-30">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-3">
-                                <?php
-                                    $args = array(
-                                        'posts_per_page' => 4, // Limit to 4 posts
-                                    );
+                        <?php
+                            // WP_Query arguments
+                            $args = array(
+                                'posts_per_page' => 4, // Limit to 4 posts
+                                'fields'         => 'ids', // Only retrieve post IDs for efficiency
+                            );
+                            // Transient cache untuk menyimpan hasil query selama 1 jam
+                            $cached_posts = get_transient('latest_posts_cache');
+                            if (false === $cached_posts) {
+                                // Jika cache tidak tersedia, lakukan query
+                                $cached_posts = get_posts($args);
+                                // Menyimpan hasil query dalam cache untuk 1 jam
+                                set_transient('latest_posts_cache', $cached_posts, HOUR_IN_SECONDS);
+                            }
+                            if ($cached_posts) :
+                                foreach ($cached_posts as $post_id) :
+                                    // Mengambil gambar unggulan untuk post
+                                    $image_url = get_the_post_thumbnail_url($post_id, 'full') ?: get_template_directory_uri() . '/assets/media/team-mate.jpg'; // Fallback image
                                     
-                                    // Create a new query using the previously defined parameters
-                                    $the_query = new WP_Query($args);
-                                    
-                                    if ($the_query->have_posts()) : 
-                                        while ($the_query->have_posts()) : $the_query->the_post();
-                                            $image_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); // Get the post thumbnail URL.
-                                            if (!$image_url) {
-                                                $image_url = get_template_directory_uri() . '/assets/media/team-mate.jpg'; // Fallback image URL
-                                            }
-                                            $title = get_the_title(); // Get the full title
-                                            $short_title = mb_strlen($title) > 32 ? mb_substr($title, 0, 32) . '[..]' : $title; // Shorten the title if necessary
-                                ?>
-
-                                <article class="post-block-style-wrapper post-block-template-one post-block-template-small">
-                                    <div class="post-block-style-inner">
-                                        <div class="post-block-media-wrap">
-                                            <a href="<?php the_permalink(); ?>">
-                                            <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($short_title); ?>">
-                                            </a>
-                                        </div>
-                                        <div class="post-block-content-wrap">
-                                            <div class="post-item-title">
-                                                <h2 class="post-title">
-                                                    <a href="<?php the_permalink(); ?>"><?php echo $short_title; ?></a>
-                                                </h2>
+                                    // Mengambil judul dan link untuk post
+                                    $title     = get_the_title($post_id);
+                                    $short_title = mb_strlen($title) > 32 ? mb_substr($title, 0, 32) . '[..]' : $title;
+                                    $permalink = get_permalink($post_id);
+                            ?>
+                                    <article class="post-block-style-wrapper post-block-template-one post-block-template-small">
+                                        <div class="post-block-style-inner">
+                                            <div class="post-block-media-wrap">
+                                                <a href="<?php echo esc_url($permalink); ?>">
+                                                    <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($short_title); ?>">
+                                                </a>
                                             </div>
-                                            <div class="post-bottom-meta-list">
-                                                <div class="post-meta-author-box">
-                                                    By <a href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID'))); ?>"><?php the_author(); ?></a>
+                                            <div class="post-block-content-wrap">
+                                                <div class="post-item-title">
+                                                    <h2 class="post-title">
+                                                        <a href="<?php echo esc_url($permalink); ?>"><?php echo esc_html($short_title); ?></a>
+                                                    </h2>
                                                 </div>
-                                                <div class="post-meta-date-box">
-                                                    <?php echo get_the_date(); ?>
+                                                <div class="post-bottom-meta-list">
+                                                    <div class="post-meta-author-box">
+                                                        By <a href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID'))); ?>"><?php the_author(); ?></a>
+                                                    </div>
+                                                    <div class="post-meta-date-box">
+                                                        <?php echo get_the_date(); ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </article>
-
-                                <?php
-                                    endwhile;
-                                else :
-                                    echo '<p>No posts found.</p>';
-                                endif;
+                                    </article>
+                            <?php
+                                endforeach;
+                            endif;
                             ?>
                         </div>
                         <div class="col-lg-6">
@@ -178,7 +176,6 @@
                                 'offset' => 4 // Jumlah posting yang ingin di-skip dari awal
                             );
                             $the_query = new WP_Query($args);
-
                             if ($the_query->have_posts()) : 
                                 while ($the_query->have_posts()) : $the_query->the_post();
                                     $image_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
@@ -187,11 +184,9 @@
                                     }
                                     $title = get_the_title();
                                     $short_title = mb_strlen($title) > 32 ? mb_substr($title, 0, 32) . '[..]' : $title;
-
                                     $original_excerpt = get_the_excerpt();
                                     $excerpt = mb_strlen($original_excerpt) > 40 ? mb_substr($original_excerpt, 0, 200) . ".." : $original_excerpt;
                             ?>
-
                             <article class="post-block-style-wrapper post-block-template-one sm-mt-24">
                                 <div class="post-block-style-inner">
                                     <div class="post-block-media-wrap">
@@ -219,7 +214,6 @@
                                     </div>
                                 </div>
                             </article>
-
                             <?php
                                 endwhile;
                                 wp_reset_postdata();
@@ -227,7 +221,6 @@
                                 echo '<p>No posts found.</p>';
                             endif;
                         ?>
-
                         </div>
                         <div class="col-lg-3">
                             <div class="section-title sm-mt-24">
@@ -236,7 +229,7 @@
                                 </h2>
                             </div>
                             <div class="post-block-template-two-wrapper">
-                                <?php
+                            <?php
                                 $args = array(
                                     'post_type'      => 'post', // Change to 'any' or other post type if needed
                                     'posts_per_page' => 5,
@@ -244,15 +237,11 @@
                                     'orderby'        => 'meta_value_num',
                                     'order'          => 'DESC', // Changed to DESC for highest view count
                                 );
-
                                 $the_query = new WP_Query($args);
-
                                 if ($the_query->have_posts()) :
                                     while ($the_query->have_posts()) : $the_query->the_post();
-
                                         // Get the full title of the post
                                         $full_title = get_the_title();
-
                                         // Truncate the title to a shorter length if it exceeds 32 characters
                                         $short_title = mb_strlen($full_title) > 32 ? mb_substr($full_title, 0, 28) . ' [..]' : $full_title;
                                         ?>
@@ -290,7 +279,6 @@
                                     <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
                                 <?php endif; ?>
                             </div>
-
                             <div class="ads-widget mt-40">
                                 <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_sidebar_ads_1')) ?>
                             </div>
@@ -339,8 +327,6 @@
                 </div>
             </section>
             <div class="section-divider mt-20 mb-20"></div>
-            
-
             <section class="ads-area mt-20 mb-20">
                 <div class="container">
                     <div class="row">
@@ -353,7 +339,6 @@
                     </div>
                 </div>
             </section>
-          
             <section class="most-popular-area mt-60">
                 <div class="container">
                     <div class="row">
@@ -373,7 +358,7 @@
                                    'tag' => 'netflix-trending', // Fetch posts from the "movie-malem-minggu" category
                                     'posts_per_page' => 1,
                                     'meta_key' => 'post_views_count',
-                                    'orderby' => 'meta_value_num',
+                                    'orderby' => 'date',
                                     'order' => 'DESC',
                                 );
                                 $popular_post = new WP_Query($args);
@@ -464,58 +449,59 @@
                         </div>
                     </div>
                     <div class="row divider-border">
-                        <?php
-                            // Query posts from the 'Technology' category
-                            $args = array(
-                                'post_type'      => 'post',
-                                'posts_per_page' => 3,
-                                'tag'            => 'anime-netflix',  // Change 'front-end' to your desired category slug
-                                'meta_key'       => 'post_views_count',
-                                'orderby'        => 'meta_value_num',
-                                'order'          => 'DESC', // Order by most views
-                            );
+                    <?php
+                        $args = array(
+                            'post_type'      => 'post',           // Tipe post standar
+                            'posts_per_page' => 3,                // Menampilkan 3 postingan
+                            'tag'            => 'anime-netflix',  // Ganti dengan slug tag yang diinginkan
+                            'orderby'        => 'meta_value_num', // Mengurutkan berdasarkan meta_value (views count)
+                            'meta_key'       => 'post_views_count', // Key untuk views count
+                            'order'          => 'DESC',           // Urutkan dari yang terbanyak
+                            'post_status'    => 'publish',        // Hanya post yang dipublikasikan
+                        );
 
-                            $query = new WP_Query($args);
-                            if ($query->have_posts()) :
-                                $counter = 1;
-                                while ($query->have_posts()) : $query->the_post();
+                        $query = new WP_Query($args);
+
+                        if ($query->have_posts()) :
+                            $counter = 1;
+                            while ($query->have_posts()) : $query->the_post();
                         ?>
-                        <div class="col-lg-4">
-                            <div class="post-block-template-three-wrapper popular-post-block-bottom-wrapper">
-                                <article class="post-block-style-wrapper post-block-template-three">
-                                    <div class="post-block-style-inner post-block-list-style-inner-three">
-                                        <div class="post-block-number-wrap">
-                                            <span class="post-number-counter"><?php echo $counter; ?></span>
-                                        </div>
-                                        <div class="post-block-content-wrap">
-                                            <div class="post-item-title">
-                                                <h2 class="post-title">
-                                                    <a href="<?php the_permalink(); ?>"><?php 
+                            <div class="col-lg-4">
+                                <div class="post-block-template-three-wrapper popular-post-block-bottom-wrapper">
+                                    <article class="post-block-style-wrapper post-block-template-three">
+                                        <div class="post-block-style-inner post-block-list-style-inner-three">
+                                            <div class="post-block-number-wrap">
+                                                <span class="post-number-counter"><?php echo $counter; ?></span>
+                                            </div>
+                                            <div class="post-block-content-wrap">
+                                                <div class="post-item-title">
+                                                    <h2 class="post-title">
+                                                        <a href="<?php the_permalink(); ?>"><?php 
                                                             $title = get_the_title();
                                                             echo strlen($title) > 18 ? substr($title, 0, 30) . ".." : $title;
                                                         ?>
-                                                    </a>
-                                                </h2>
-                                            </div>
-                                            <div class="post-bottom-meta-list">
-                                                <div class="post-meta-author-box">
-                                                    By <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a>
+                                                        </a>
+                                                    </h2>
                                                 </div>
-                                                <div class="post-meta-date-box">
-                                                    <?php echo get_the_date('M d'); ?>
+                                                <div class="post-bottom-meta-list">
+                                                    <div class="post-meta-author-box">
+                                                        By <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a>
+                                                    </div>
+                                                    <div class="post-meta-date-box">
+                                                        <?php echo get_the_date('M d'); ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </article>
+                                    </article>
+                                </div>
                             </div>
-                        </div>
                         <?php
                             $counter++;
-                                endwhile;
+                            endwhile;
                             wp_reset_postdata();
                         else : ?>
-                        <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+                            <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -628,4 +614,137 @@
                     </div>
                 </div>
             </section>
-          
+            <div class="section-divider mt-60 mb-60"></div>
+            <section class="editor-choice-one-area pt-40 pb-40 mt-40">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="section-title">
+                                <h2 class="title-block">
+                                    Fakta-Fakta Magecine Indonesia
+                                </h2>
+                            </div>
+                            <div class="post-block-template-three-wrapper">
+                            <?php
+                                // Query untuk mengambil 2 postingan terbaru dengan tag "fakta"
+                                $args = array(
+                                    'post_type'      => 'post', // Tipe post (artikel)
+                                    'posts_per_page' => 2,      // Jumlah postingan yang diambil
+                                    'tag'            => 'fakta', // Tag yang digunakan
+                                    'orderby'        => 'date',  // Urutkan berdasarkan tanggal
+                                    'order'          => 'DESC',  // Urutan dari yang terbaru
+                                );
+
+                                $query = new WP_Query($args);
+
+                                if ($query->have_posts()) :
+                                    while ($query->have_posts()) : $query->the_post();
+                                        // Ambil data yang diperlukan
+                                        $post_title = get_the_title();
+                                        $post_url = get_permalink();
+                                        $post_author = get_the_author();
+                                        $post_date = get_the_date('M j');
+                                        $post_thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium'); // Gambar thumbnail
+                                ?>
+                                        <article class="post-block-style-wrapper post-block-template-three">
+                                            <div class="post-block-style-inner post-block-list-style-inner-three">
+                                                <!-- Gambar thumbnail -->
+                                                <div class="post-block-media-wrap">
+                                                    <a href="<?php echo esc_url($post_url); ?>">
+                                                        <img src="<?php echo esc_url($post_thumbnail); ?>" alt="<?php echo esc_attr($post_title); ?>">
+                                                    </a>
+                                                </div>
+                                                <div class="post-block-number-wrap">
+                                                    <span class="post-number-counter"><?php echo $query->current_post + 1; ?></span>
+                                                </div>
+                                                <div class="post-block-content-wrap">
+                                                    <div class="post-item-title">
+                                                        <h2 class="post-title">
+                                                            <a href="<?php echo esc_url($post_url); ?>"><?php echo esc_html($post_title); ?></a>
+                                                        </h2>
+                                                    </div>
+                                                    <div class="post-bottom-meta-list">
+                                                        <div class="post-meta-author-box">
+                                                            By <a href="javascript:void(0)"><?php echo esc_html($post_author); ?></a>
+                                                        </div>
+                                                        <div class="post-meta-date-box">
+                                                            <?php echo esc_html($post_date); ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                <?php
+                                    endwhile;
+                                    wp_reset_postdata(); // Reset query
+                                else :
+                                    echo '<p>Tidak ada postingan ditemukan.</p>';
+                                endif;
+                                ?>
+                                 
+                            </div>
+                        </div>
+                        <div class="col-lg-8 most-recent-col-custom">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="section-title">
+                                        <h2 class="title-block">
+                                          
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <?php
+                                    $args = array(
+                                        'tag'            => 'fakta', // Ambil postingan dengan tag 'fakta'
+                                        'posts_per_page' => 2,       // Ambil 2 postingan terbaru
+                                        'order'          => 'DESC',  // Urutkan dari yang terbaru
+                                    );
+                                    
+                                    $query = new WP_Query($args);
+                                    
+                                    if ($query->have_posts()) :
+                                        while ($query->have_posts()) : $query->the_post(); ?>
+                                        <div class="col-lg-6">
+                                            <article class="post-block-style-wrapper">
+                                                <div class="post-block-style-inner">
+                                                    <div class="post-block-media-wrap">
+                                                        <a href="<?php the_permalink(); ?>">
+                                                            <?php the_post_thumbnail('medium'); ?>
+                                                        </a>
+                                                    </div>
+                                                    <div class="post-block-content-wrap">
+                                                        <div class="post-item-title">
+                                                            <h2 class="post-title">
+                                                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                                            </h2>
+                                                        </div>
+                                                        <div class="post-excerpt-box">
+                                                            <p><?php echo wp_trim_words(get_the_excerpt(), 20, '...'); ?></p>
+                                                        </div>
+                                                        <div class="post-bottom-meta-list">
+                                                            <div class="post-meta-author-box">
+                                                                By <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>">
+                                                                    <?php the_author(); ?>
+                                                                </a>
+                                                            </div>
+                                                            <div class="post-meta-date-box">
+                                                                <?php echo get_the_date('M j, Y'); ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <?php endwhile;
+                                        wp_reset_postdata();
+                                    else :
+                                        echo '<p>Tidak ada postingan dengan tag "fakta".</p>';
+                                    endif;
+                                    ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>

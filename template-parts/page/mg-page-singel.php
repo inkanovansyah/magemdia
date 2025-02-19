@@ -98,7 +98,7 @@
             <div class="post-single-area mt-30">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12 mb-30">
                             <?php mg_custom_breadcrumbs() ?>
                         </div>
                         <div class="col-lg-8 single-blog-content">
