@@ -71,7 +71,7 @@
                                         <div class="theme-serach-box_inner_wrapper d-flex align-items-center">
                                             <form role="search" method="get" id="searchform" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
                                                 <div class="form-group">
-                                                    <input type="text" class="search-input" name="s" id="popup-search" placeholder="Type keywords here....." value="<?php echo get_search_query(); ?>" />
+                                                    <input type="text" class="search-input" name="s" id="popup-search" placeholder="Cari Artikel 🎬..." value="<?php echo get_search_query(); ?>" />
                                                 </div>
                                                 <button type="submit" id="serach-popup-btn-box" class="search-button submit-btn"><i class="icofont-search-1"></i></button>
                                             </form>

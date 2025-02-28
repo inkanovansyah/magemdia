@@ -14,18 +14,28 @@ fetch(API_URL, {
 
     data.results.forEach(movie => {
       const movieCard = document.createElement('div');
-      movieCard.className = 'movie-card';
+      movieCard.className = 'rounded';
       movieCard.innerHTML = `
-        <div class="card bg-dark rounded">
-           <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" 
-               class="card-img-top" 
-                    alt="${movie.title}">
-           <div class="text-start card-body">
-               <h5 class="card-title">${movie.title}</h5>
-               <p class="card-text">${movie.release_date}</p>
-               <p class="card-text">Rating: ${movie.vote_average}/10</p>
-           </div>
-       </div>
+        <div class="rounded" style="position: relative;border-radius: 16px;overflow: hidden;>
+              <figure class="mb-0">
+                <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" class="card-img-top" alt="${movie.title}">
+              </figure>
+            <div style="left: 0;right: 0;bottom: 0;background:linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);;position: absolute;display: flex;padding: 24px 24px;flex-direction: column;">
+              <h3 class="h5 font-os-bold mb-0">
+                ${movie.title}
+              </h3>
+              <div>
+                <p class="text-white fs-12" href="<?php echo get_author_posts_url(get_the_author_meta('ID')) ?>">
+                  ${movie.release_date}
+                </p>
+              <span class="px-1 text-white fs-12">
+                -
+              </span>
+              <span class="text-white fs-12">
+                ⭐ ${movie.vote_average}/10
+              </span>
+            </div>
+        </div>
       `;
       slider.appendChild(movieCard);
     });
@@ -36,8 +46,6 @@ fetch(API_URL, {
       slidesToScroll: 1,
       autoplay: true,
       autoplaySpeed: 3000,
-      dots: false,
-      arrows: true,
       responsive: [
         {
           breakpoint: 1024,

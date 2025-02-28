@@ -615,7 +615,7 @@
                 </div>
             </section>
             <div class="section-divider mt-60 mb-60"></div>
-            <section class="editor-choice-one-area pt-40 pb-40 mt-40">
+            <section class="editor-choice-one-area pt-20 pb-30">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-4">
