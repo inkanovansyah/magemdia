@@ -11,7 +11,7 @@
                     <div class="tpoffcanvas__text offcanvas-content">
                         <div class="main-canvas-inner">
                             <div class="canvas-bar-post-list">
-                               <?php
+                                <?php
                                     // WP_Query arguments
                                     $args = array(
                                         'post_type'              => 'post', // or 'any' if you want to include pages as well
@@ -64,8 +64,7 @@
                                     } else {
                                         // No posts found
                                     }
-                                    ?>
-
+                                ?>
                             </div>
                             <div class="panel-nav-social">
                                 <a href="#"><i class="icofont-facebook"></i></a>

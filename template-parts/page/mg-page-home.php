@@ -6,7 +6,6 @@
 //check sticky
 // $stickyS = get_option('sticky_posts');
 ?>
-
         <!-- Site Wrapper -->
         <d id="main-wrapper" class="main-wrapper">
             <div class="tp-offcanvas-area">
@@ -114,57 +113,53 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-3">
-                        <?php
-                            // WP_Query arguments
-                            $args = array(
-                                'posts_per_page' => 4, // Limit to 4 posts
-                                'fields'         => 'ids', // Only retrieve post IDs for efficiency
-                            );
-                            // Transient cache untuk menyimpan hasil query selama 1 jam
-                            $cached_posts = get_transient('latest_posts_cache');
-                            if (false === $cached_posts) {
-                                // Jika cache tidak tersedia, lakukan query
-                                $cached_posts = get_posts($args);
-                                // Menyimpan hasil query dalam cache untuk 1 jam
-                                set_transient('latest_posts_cache', $cached_posts, HOUR_IN_SECONDS);
-                            }
-                            if ($cached_posts) :
-                                foreach ($cached_posts as $post_id) :
-                                    // Mengambil gambar unggulan untuk post
-                                    $image_url = get_the_post_thumbnail_url($post_id, 'full') ?: get_template_directory_uri() . '/assets/media/team-mate.jpg'; // Fallback image
-                                    
-                                    // Mengambil judul dan link untuk post
-                                    $title     = get_the_title($post_id);
-                                    $short_title = mb_strlen($title) > 32 ? mb_substr($title, 0, 32) . '[..]' : $title;
-                                    $permalink = get_permalink($post_id);
-                            ?>
-                                    <article class="post-block-style-wrapper post-block-template-one post-block-template-small">
-                                        <div class="post-block-style-inner">
-                                            <div class="post-block-media-wrap">
-                                                <a href="<?php echo esc_url($permalink); ?>">
-                                                    <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($short_title); ?>">
-                                                </a>
-                                            </div>
-                                            <div class="post-block-content-wrap">
-                                                <div class="post-item-title">
-                                                    <h2 class="post-title">
-                                                        <a href="<?php echo esc_url($permalink); ?>"><?php echo esc_html($short_title); ?></a>
-                                                    </h2>
-                                                </div>
-                                                <div class="post-bottom-meta-list">
-                                                    <div class="post-meta-author-box">
-                                                        By <a href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID'))); ?>"><?php the_author(); ?></a>
-                                                    </div>
-                                                    <div class="post-meta-date-box">
-                                                        <?php echo get_the_date(); ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </article>
                             <?php
-                                endforeach;
-                            endif;
+                                // WP_Query arguments
+                                $args = array(
+                                    'posts_per_page' => 4, // Limit to 4 posts
+                                    'fields'         => 'ids', // Only retrieve post IDs for efficiency
+                                );
+                                
+                                // Lakukan query langsung tanpa cache
+                                $posts = get_posts($args);
+                                
+                                if ($posts) :
+                                    foreach ($posts as $post_id) :
+                                        // Mengambil gambar unggulan untuk post
+                                        $image_url = get_the_post_thumbnail_url($post_id, 'full') ?: get_template_directory_uri() . '/assets/media/team-mate.jpg'; // Fallback image
+                                        
+                                        // Mengambil judul dan link untuk post
+                                        $title     = get_the_title($post_id);
+                                        $short_title = mb_strlen($title) > 32 ? mb_substr($title, 0, 32) . '[..]' : $title;
+                                        $permalink = get_permalink($post_id);
+                                ?>
+                                        <article class="post-block-style-wrapper post-block-template-one post-block-template-small">
+                                            <div class="post-block-style-inner">
+                                                <div class="post-block-media-wrap">
+                                                    <a href="<?php echo esc_url($permalink); ?>">
+                                                        <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($short_title); ?>">
+                                                    </a>
+                                                </div>
+                                                <div class="post-block-content-wrap">
+                                                    <div class="post-item-title">
+                                                        <h2 class="post-title">
+                                                            <a href="<?php echo esc_url($permalink); ?>"><?php echo esc_html($short_title); ?></a>
+                                                        </h2>
+                                                    </div>
+                                                    <div class="post-bottom-meta-list">
+                                                        <div class="post-meta-author-box">
+                                                            By <a href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID', get_post_field('post_author', $post_id)))); ?>"><?php echo get_the_author_meta('display_name', get_post_field('post_author', $post_id)); ?></a>
+                                                        </div>
+                                                        <div class="post-meta-date-box">
+                                                            <?php echo get_the_date(); ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                <?php
+                                    endforeach;
+                                endif;
                             ?>
                         </div>
                         <div class="col-lg-6">
