@@ -1,5 +1,6 @@
     <div>
         <footer class="theme-footer-area">
+            <div class="footer-divider"></div>
             <div class="footer-top pt-20 pb-20">
                 <div class="container">
                     <div class="row">
@@ -7,12 +8,6 @@
                             <div class="footer-widget widget">
                                 <div class="footer-logo">
                                     <a href="<?php echo home_url(); ?>"><img src="<?php echo get_template_directory_uri() .'/assets/media/logo.svg'?>" alt="Logo"></a>
-                                </div>
-                                <div class="footer-social">
-                                    <a href="<?php echo get_option('facebook_url'); ?>" target="_blank"><i class="icofont-facebook"></i></a>
-                                    <a href="<?php echo get_option('twitter_url'); ?>" target="_blank"><i class="icofont-twitter"></i></a>
-                                    <a href="<?php echo get_option('instagram_url'); ?>" target="_blank"><i class="icofont-instagram"></i></a>
-                                    <a href="<?php echo get_option('youtube_url'); ?>" target="_blank"><i class="icofont-youtube"></i></a>
                                 </div>
                             </div>
                         </div>

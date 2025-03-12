@@ -1,4 +1,11 @@
 <?php
+
+/** 
+ * ==========================================================================
+ * @author inka novansyah
+ * Add section ads
+ * ==========================================================================
+ */
 function mg_theme_customizer_branding($wp_customize)
 {
     $wp_customize->add_section('mg_section_branding', array(

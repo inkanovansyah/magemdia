@@ -180,42 +180,45 @@
                                         </h5>
                                         <p class="author-inner-text">  <?php echo get_the_author_meta('description'); ?></p>
                                         <?php
-                                                // Ambil informasi penulis
-                                                $author = get_queried_object(); 
-                                                $author_id = $author->ID;
+                                            // Ambil ID author dari post yang sedang ditampilkan
+                                            $author_id = get_the_author_meta('ID');
 
-                                                // Ambil link media sosial dari user meta
-                                                $facebook = get_the_author_meta('facebook', $author_id);
-                                                $instagram = get_the_author_meta('instagram', $author_id);
-                                                $twitter = get_the_author_meta('twitter', $author_id);
-                                                $linkedin = get_the_author_meta('linkedin', $author_id);
-                                                ?>
+                                            // Jika Anda ingin menentukan author secara manual, gunakan ini:
+                                            // $author_id = 1; // Ganti dengan ID author yang diinginkan
 
-                                                <div class="social-share-author">
-                                                    <?php if ($facebook) : ?>
-                                                        <a href="<?php echo esc_url($facebook); ?>" target="_blank">
-                                                            <i class="fab fa-facebook-f"></i>
-                                                        </a>
-                                                    <?php endif; ?>
+                                            // Ambil link media sosial dari user meta
+                                            $facebook = get_the_author_meta('facebook', $author_id);
+                                            $instagram = get_the_author_meta('instagram', $author_id);
+                                            $twitter = get_the_author_meta('twitter', $author_id);
+                                            $linkedin = get_the_author_meta('linkedin', $author_id);
+                                        ?>
+                                        
 
-                                                    <?php if ($instagram) : ?>
-                                                        <a href="<?php echo esc_url($instagram); ?>" target="_blank">
-                                                            <i class="fab fa-instagram"></i>
-                                                        </a>
-                                                    <?php endif; ?>
+                                        <div class="social-share-author">
+                                            <?php if ($facebook) : ?>
+                                                <a href="<?php echo esc_url($facebook); ?>" target="_blank">
+                                                    <i class="fab fa-facebook-f"></i>
+                                                </a>
+                                            <?php endif; ?>
 
-                                                    <?php if ($twitter) : ?>
-                                                        <a href="<?php echo esc_url($twitter); ?>" target="_blank">
-                                                            <i class="fab fa-twitter"></i>
-                                                        </a>
-                                                    <?php endif; ?>
+                                            <?php if ($instagram) : ?>
+                                                <a href="<?php echo esc_url($instagram); ?>" target="_blank">
+                                                    <i class="fab fa-instagram"></i>
+                                                </a>
+                                            <?php endif; ?>
 
-                                                    <?php if ($linkedin) : ?>
-                                                        <a href="<?php echo esc_url($linkedin); ?>" target="_blank">
-                                                            <i class="fab fa-linkedin-in"></i>
-                                                        </a>
-                                                    <?php endif; ?>
-                                                </div>
+                                            <?php if ($twitter) : ?>
+                                                <a href="<?php echo esc_url($twitter); ?>" target="_blank">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                            <?php endif; ?>
+
+                                            <?php if ($linkedin) : ?>
+                                                <a href="<?php echo esc_url($linkedin); ?>" target="_blank">
+                                                    <i class="fab fa-linkedin-in"></i>
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="theme-comment-area">

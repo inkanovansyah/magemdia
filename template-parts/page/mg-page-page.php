@@ -121,16 +121,46 @@
                                             <a href="#"> <?php echo get_avatar(get_the_author_meta('user_email'), 20); ?></a>
                                         </div>
                                         <div class="author-body">
-                                            <h5 class="title">
-                                            <?php the_author(); ?>
-                                            </h5>
-                                            <p class="author-inner-text">  <?php echo get_the_author_meta('description'); ?></p>
-                                            <div class="social-share-author">
-                                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                            </div>
+                                                <h5 class="title">
+                                                <?php the_author(); ?>
+                                                </h5>
+                                                <p class="author-inner-text">  <?php echo get_the_author_meta('description'); ?></p>
+                                                <?php
+                                                // Ambil informasi penulis
+                                                $author = get_queried_object('ID'); 
+
+                                                // Ambil link media sosial dari user meta
+                                                $facebook = get_the_author_meta('facebook', $author_id);
+                                                $instagram = get_the_author_meta('instagram', $author_id);
+                                                $twitter = get_the_author_meta('twitter', $author_id);
+                                                $linkedin = get_the_author_meta('linkedin', $author_id);
+                                                ?>
+
+                                                <div class="social-share-author">
+                                                    <?php if ($facebook) : ?>
+                                                        <a href="<?php echo esc_url($facebook); ?>" target="_blank">
+                                                            <i class="fab fa-facebook-f"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($instagram) : ?>
+                                                        <a href="<?php echo esc_url($instagram); ?>" target="_blank">
+                                                            <i class="fab fa-instagram"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($twitter) : ?>
+                                                        <a href="<?php echo esc_url($twitter); ?>" target="_blank">
+                                                            <i class="fab fa-twitter"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($linkedin) : ?>
+                                                        <a href="<?php echo esc_url($linkedin); ?>" target="_blank">
+                                                            <i class="fab fa-linkedin-in"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </div>
                                         </div>
                                     </div>
                                     <div class="theme-comment-area">

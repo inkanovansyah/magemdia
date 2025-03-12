@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Muhammad Randa Syafridamara
+ * @author inka novansyah
  * Add customizer to Home
  */
 function mg_theme_customizer_article($wp_customize)

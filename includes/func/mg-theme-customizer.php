@@ -19,6 +19,6 @@ add_action('customize_register', 'mg_theme_customizer');
 
 include_once(get_template_directory() . '/includes/customizer/mg-theme-customizer-advertisement.php');
 include_once(get_template_directory() . '/includes/customizer/mg-theme-customizer-branding.php');
-include_once(get_template_directory() . '/includes/customizer/mg-theme-customizer-social-media.php');
 include_once(get_template_directory() . '/includes/customizer/mg-theme-customizer-home.php');
 include_once(get_template_directory() . '/includes/customizer/mg-theme-customizer-article.php');
+include_once(get_template_directory() . '/includes/customizer/mg-theme-customizer-social-media.php');

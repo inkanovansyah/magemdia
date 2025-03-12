@@ -515,48 +515,51 @@
                                     On Videos
                                 </h2>
                             </div>
-                                <?php
-                                    // Query untuk mengambil satu post dari kategori "video-mage"
-                                    $args = array(
-                                        'category_name'  => 'video-mage', // Slug kategori
-                                        'posts_per_page' => 1,            // Jumlah post yang ingin ditampilkan
-                                    );
+                            <?php
+                                // Query untuk mengambil satu post dari post type "video"
+                                $args = array(
+                                    'post_type'      => 'video', // Nama post type
+                                    'posts_per_page' => 1,       // Jumlah post yang ingin ditampilkan
+                                );
 
-                                    $query = new WP_Query($args);
+                                $query = new WP_Query($args);
 
-                                    if ($query->have_posts()) :
-                                        while ($query->have_posts()) : $query->the_post(); ?>
-                                            <article class="post-block-style-wrapper post-block-template-one post-block-video">
-                                                <div class="post-block-style-inner">
-                                                    <div class="post-block-video-thumb">
-                                                        <div class="post-block-media-wrap">
-                                                            <a href="<?php the_permalink(); ?>">
-                                                                <?php if (has_post_thumbnail()) {
-                                                                    the_post_thumbnail('medium'); // Ukuran thumbnail
-                                                                } ?>
-                                                            </a>
-                                                        </div>
-                                                        <div class="video-play-icon-wrap">
-                                                            <a href="<?php the_permalink(); ?>" class="theme-play-btn video-play-btn"></a>
-                                                        </div>
+                                if ($query->have_posts()) :
+                                    while ($query->have_posts()) : $query->the_post(); ?>
+                                        <article class="post-block-style-wrapper post-block-template-one post-block-video">
+                                            <div class="post-block-style-inner">
+                                                <div class="post-block-video-thumb">
+                                                    <div class="post-block-media-wrap">
+                                                        <a href="<?php the_permalink(); ?>">
+                                                            <?php if (has_post_thumbnail()) {
+                                                                the_post_thumbnail('medium'); // Ukuran thumbnail
+                                                            } ?>
+                                                        </a>
                                                     </div>
-                                                    <div class="post-block-content-wrap">
-                                                        <div class="post-item-title">
-                                                            <h2 class="post-title">
-                                                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                                                            </h2>
-                                                        </div>
-                                                        <div class="post-excerpt-box">
-                                                            <p><?php the_excerpt(); ?></p>
-                                                        </div>
+                                                    <div class="video-play-icon-wrap">
+                                                        <a href="<?php the_permalink(); ?>" class="theme-play-btn video-play-btn"></a>
                                                     </div>
                                                 </div>
-                                            </article>
-                                        <?php endwhile;
-                                        wp_reset_postdata();
-                                    else : ?>
-                                        <p><?php esc_html_e('No posts found.'); ?></p>
-                                <?php endif; ?>
+                                                <div class="post-block-content-wrap">
+                                                    <div class="post-item-title">
+                                                        <h2 class="post-title">
+                                                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                                        </h2>
+                                                    </div>
+                                                    <div class="post-excerpt-box">
+                                                        <p><?php the_excerpt(); ?></p>
+                                                    </div>
+                                                    <div class="post-full-content">
+                                                        <?php the_content(); ?> <!-- Menampilkan konten lengkap -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    <?php endwhile;
+                                    wp_reset_postdata();
+                                else : ?>
+                                    <p><?php esc_html_e('No posts found.'); ?></p>
+                            <?php endif; ?>
                         </div>
                         <div class="col-lg-5">
                             <div class="section-btn text-end">
@@ -565,7 +568,7 @@
                             <?php
                                 // Query untuk mengambil post dari kategori "video-mage" dengan offset satu post
                                 $args = array(
-                                    'category_name'  => 'video-mage', // Slug kategori
+                                    'post_type'      => 'video',
                                     'posts_per_page' => 1,            // Jumlah post yang ingin ditampilkan
                                     'offset'         => 1,            // Melewatkan post pertama
                                 );
@@ -602,7 +605,7 @@
                                         </article>
                                     <?php endwhile;
                                     wp_reset_postdata();
-                            else : ?>
+                                    else : ?>
                                 <p><?php esc_html_e('No posts found.'); ?></p>
                             <?php endif; ?>
                         </div>
@@ -610,134 +613,118 @@
                 </div>
             </section>
             <div class="section-divider mt-60 mb-60"></div>
-            <section class="editor-choice-one-area pt-20 pb-30">
+            <section class="articles-grid-section mt-60 mb-60">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-12">
                             <div class="section-title">
                                 <h2 class="title-block">
-                                    Fakta-Fakta Magecine Indonesia
+                                    Event Bocah Popcorn Movie
                                 </h2>
                             </div>
-                            <div class="post-block-template-three-wrapper">
-                            <?php
-                                // Query untuk mengambil 2 postingan terbaru dengan tag "fakta"
-                                $args = array(
-                                    'post_type'      => 'post', // Tipe post (artikel)
-                                    'posts_per_page' => 2,      // Jumlah postingan yang diambil
-                                    'tag'            => 'fakta', // Tag yang digunakan
-                                    'orderby'        => 'date',  // Urutkan berdasarkan tanggal
-                                    'order'          => 'DESC',  // Urutan dari yang terbaru
-                                );
+                        </div>
+                    </div>
+                    <div class="row">
+                        <?php
+                        // Query untuk mengambil post dari post type "film_event" dengan urutan DESC berdasarkan tanggal
+                        $args = array(
+                            'post_type'      => 'film_event', // Nama post type
+                            'posts_per_page' => 4,            // Jumlah post per halaman
+                            'orderby'        => 'date',       // Urutkan berdasarkan tanggal
+                            'order'          => 'DESC',       // Urutan DESC (terbaru ke terlama)
+                        );
 
-                                $query = new WP_Query($args);
+                        $query = new WP_Query($args);
 
-                                if ($query->have_posts()) :
-                                    while ($query->have_posts()) : $query->the_post();
-                                        // Ambil data yang diperlukan
-                                        $post_title = get_the_title();
-                                        $post_url = get_permalink();
-                                        $post_author = get_the_author();
-                                        $post_date = get_the_date('M j');
-                                        $post_thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium'); // Gambar thumbnail
-                                ?>
-                                        <article class="post-block-style-wrapper post-block-template-three">
-                                            <div class="post-block-style-inner post-block-list-style-inner-three">
-                                                <!-- Gambar thumbnail -->
-                                                <div class="post-block-media-wrap">
-                                                    <a href="<?php echo esc_url($post_url); ?>">
-                                                        <img src="<?php echo esc_url($post_thumbnail); ?>" alt="<?php echo esc_attr($post_title); ?>">
-                                                    </a>
+                        if ($query->have_posts()) :
+                            while ($query->have_posts()) : $query->the_post(); ?>
+                                <div class="col-lg-3">
+                                    <article class="post-block-style-wrapper post-block-template-one post-block-template-small">
+                                        <div class="post-block-style-inner">
+                                            <div class="post-block-media-wrap">
+                                                <a href="<?php the_permalink(); ?>">
+                                                    <?php if (has_post_thumbnail()) {
+                                                        the_post_thumbnail('medium', array('alt' => get_the_title())); // Thumbnail dengan alt text
+                                                    } else { ?>
+                                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/media/camera.jpg" alt="Post title">
+                                                    <?php } ?>
+                                                </a>
+                                            </div>
+                                            <div class="post-block-content-wrap">
+                                                <div class="post-item-title">
+                                                    <h2 class="post-title">
+                                                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                                    </h2>
                                                 </div>
-                                                <div class="post-block-number-wrap">
-                                                    <span class="post-number-counter"><?php echo $query->current_post + 1; ?></span>
+                                                <div class="post-excerpt-box">
+                                                    <p><?php echo wp_trim_words(get_the_excerpt(), 20, '...'); ?></p>
                                                 </div>
-                                                <div class="post-block-content-wrap">
-                                                    <div class="post-item-title">
-                                                        <h2 class="post-title">
-                                                            <a href="<?php echo esc_url($post_url); ?>"><?php echo esc_html($post_title); ?></a>
-                                                        </h2>
+                                                <div class="post-bottom-meta-list">
+                                                    <div class="post-meta-author-box">
+                                                        By <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a>
                                                     </div>
-                                                    <div class="post-bottom-meta-list">
-                                                        <div class="post-meta-author-box">
-                                                            By <a href="javascript:void(0)"><?php echo esc_html($post_author); ?></a>
-                                                        </div>
-                                                        <div class="post-meta-date-box">
-                                                            <?php echo esc_html($post_date); ?>
-                                                        </div>
+                                                    <div class="post-meta-date-box">
+                                                        <?php echo get_the_date('M j'); ?>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </article>
-                                <?php
-                                    endwhile;
-                                    wp_reset_postdata(); // Reset query
-                                else :
-                                    echo '<p>Tidak ada postingan ditemukan.</p>';
-                                endif;
-                                ?>
-                                 
+                                        </div>
+                                    </article>
+                                </div>
+                            <?php endwhile;
+                            wp_reset_postdata(); // Reset post data
+                        else : ?>
+                            <div class="col-lg-12">
+                                <p><?php esc_html_e('No posts found.'); ?></p>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </section>
+            <div class="section-divider mt-60 mb-60"></div>                    
+            <section class="articles-grid-section mt-60 mb-60">
+                <div class="container mt-4">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <div class="section-title">
+                                <h2 class="title-block">
+                                    Follow Sosial Media Kami Banyak Yang Seru Disini
+                                </h2>
                             </div>
                         </div>
-                        <div class="col-lg-8 most-recent-col-custom">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="section-title">
-                                        <h2 class="title-block">
-                                          
-                                        </h2>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="row text-center">
+                        <!-- Bagian Atas -->
+                        <div class="col-md-3 mb-20 p-4">
+                            <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_whatsapp')) ?>" class="social-box" target="_blank">
+                                <i class="icofont-whatsapp p-2"></i> Ikuti WA Channel magecine
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-20 p-4">
+                            <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_instagram')) ?>" class="social-box" target="_blank">
+                                <i class="icofont-instagram p-2"></i> Follow Instagram magecine
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-20 p-4">
+                            <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_facebook')) ?>" class="social-box" target="_blank">
+                                <i class="icofont-facebook p-2"></i> Follow facebook magecine
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-20 p-4">
+                            <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_twitter')) ?>" class="social-box" target="_blank">
+                                <i class="icofont-twitter p-2"></i> Follow magecine di x
+                            </a>
+                        </div>
+                        <div class="d-flex justify-content-center flex-wrap text-center">
+                            <div class="col-md-3 mb-3 p-4">
+                                <a href="<?php echo esc_url(get_theme_mod('mg_theme_customizer_control_socialmedia_youtube')) ?>" class="social-box d-block text-white" target="_blank">
+                                    <i class="icofont-brand-youtube p-2"></i> Ikuti Channel magecine di YouTube
+                                </a>
                             </div>
-                            <div class="row">
-                                <?php
-                                    $args = array(
-                                        'tag'            => 'fakta', // Ambil postingan dengan tag 'fakta'
-                                        'posts_per_page' => 2,       // Ambil 2 postingan terbaru
-                                        'order'          => 'DESC',  // Urutkan dari yang terbaru
-                                    );
-                                    
-                                    $query = new WP_Query($args);
-                                    
-                                    if ($query->have_posts()) :
-                                        while ($query->have_posts()) : $query->the_post(); ?>
-                                        <div class="col-lg-6">
-                                            <article class="post-block-style-wrapper">
-                                                <div class="post-block-style-inner">
-                                                    <div class="post-block-media-wrap">
-                                                        <a href="<?php the_permalink(); ?>">
-                                                            <?php the_post_thumbnail('medium'); ?>
-                                                        </a>
-                                                    </div>
-                                                    <div class="post-block-content-wrap">
-                                                        <div class="post-item-title">
-                                                            <h2 class="post-title">
-                                                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                                                            </h2>
-                                                        </div>
-                                                        <div class="post-excerpt-box">
-                                                            <p><?php echo wp_trim_words(get_the_excerpt(), 20, '...'); ?></p>
-                                                        </div>
-                                                        <div class="post-bottom-meta-list">
-                                                            <div class="post-meta-author-box">
-                                                                By <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>">
-                                                                    <?php the_author(); ?>
-                                                                </a>
-                                                            </div>
-                                                            <div class="post-meta-date-box">
-                                                                <?php echo get_the_date('M j, Y'); ?>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                        </div>
-                                        <?php endwhile;
-                                        wp_reset_postdata();
-                                    else :
-                                        echo '<p>Tidak ada postingan dengan tag "fakta".</p>';
-                                    endif;
-                                    ?>
+                            <div class="col-md-3 mb-3 p-4">
+                                <a href="<?php echo esc_url(get_theme_mod('mg_theme_customizer_control_socialmedia_tiktok')) ?>" class="social-box d-block text-white" target="_blank">
+                                    <i class="icofont-tiktok p-2"></i> Follow Tiktok di magecine
+                                </a>
                             </div>
                         </div>
                     </div>

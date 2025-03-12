@@ -1,9 +1,14 @@
 <?php
-
+/** 
+ * ==========================================================================
+ * @author inka novansyah
+ * Add section ads
+ * ==========================================================================
+ */
 function mg_theme_customizer_social_media($wp_customize)
 {
     $wp_customize->add_section(
-        'vg_theme_customizer_section_socialmedia',
+        'mg_theme_customizer_section_socialmedia',
         array(
             'title' => 'Social Media',
             'description' => '© PT Magecine <br /> Panel For customizing Social Media <br /> <i> Full Social Media Url </i>',
@@ -11,6 +16,12 @@ function mg_theme_customizer_social_media($wp_customize)
             'priority' => 126,
         )
     );
+    $wp_customize->add_setting('mg_theme_customizer_control_socialmedia_whatsapp', array());
+    $wp_customize->add_control('mg_theme_customizer_control_socialmedia_whatsapp', array(
+        'label' => 'Whatsapp',
+        'section' => 'mg_theme_customizer_section_socialmedia',
+        'priority' => 1,
+    ));
     $wp_customize->add_setting('mg_theme_customizer_control_socialmedia_instagram', array());
     $wp_customize->add_control('mg_theme_customizer_control_socialmedia_instagram', array(
         'label' => 'Instagram',
@@ -35,9 +46,9 @@ function mg_theme_customizer_social_media($wp_customize)
         'section' => 'mg_theme_customizer_section_socialmedia',
         'priority' => 1,
     ));
-    $wp_customize->add_setting('mg_theme_customizer_control_socialmedia_twitch', array());
-    $wp_customize->add_control('mg_theme_customizer_control_socialmedia_twitch', array(
-        'label' => 'Twitch',
+    $wp_customize->add_setting('mg_theme_customizer_control_socialmedia_tiktok', array());
+    $wp_customize->add_control('mg_theme_customizer_control_socialmedia_tiktok', array(
+        'label' => 'Tiktok',
         'section' => 'mg_theme_customizer_section_socialmedia',
         'priority' => 1,
     ));
