@@ -12,7 +12,7 @@ function mg_theme_customizer_advertisement($wp_customize)
         'mg_theme_customizer_section_ads',
         array(
             'title' => 'Advertisment google',
-            'description' => '© PT Magecine<br /> Panel For customizing Ads <br /> <br /> Google Ads Example : <br /> <pre style="white-space:pre-wrap" >'
+            'description' => '© PT Males Gerak <br /> Panel For customizing Ads <br /> <br /> Google Ads Example : <br /> <pre style="white-space:pre-wrap" >'
                 . esc_attr('
 <ins class="adsbygoogle" style="display:block; text-align:center;" 
 data-ad-format="horizontal" 

@@ -70,11 +70,11 @@
                                 ?>
                             </div>
                             <div class="panel-nav-social">
-                                <a href="#"><i class="icofont-facebook"></i></a>
-                                <a href="#"><i class="icofont-twitter"></i></a>
-                                <a href="#"><i class="icofont-instagram"></i></a>
-                                <a href="#"><i class="icofont-linkedin"></i></a>
-                                <a href="#"><i class="icofont-youtube"></i></a>
+                            <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_whatsapp')) ?>"><i class="icofont-whatsapp"></i></a>
+                                <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_instagram')) ?>"><i class="icofont-instagram"></i></a>
+                                <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_facebook')) ?>"><i class="icofont-facebook"></i></a>
+                                <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_twitter')) ?>"><i class="icofont-twitter"></i></a>
+                                <a href="<?php echo esc_url(get_theme_mod('mg_theme_customizer_control_socialmedia_youtube')) ?>"><i class="icofont-brand-youtube"></i></a>
                             </div>
                         </div>
                         <div class="mobile-canvas-content">

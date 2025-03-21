@@ -28,13 +28,12 @@
                                                 // Ambil informasi penulis
                                                 $author = get_queried_object(); 
                                                 $author_id = $author->ID;
-
                                                 // Ambil link media sosial dari user meta
                                                 $facebook = get_the_author_meta('facebook', $author_id);
                                                 $instagram = get_the_author_meta('instagram', $author_id);
                                                 $twitter = get_the_author_meta('twitter', $author_id);
                                                 $linkedin = get_the_author_meta('linkedin', $author_id);
-                                                ?>
+                                            ?>
 
                                                 <div class="social-share-author">
                                                     <?php if ($facebook) : ?>

@@ -78,11 +78,11 @@
                                     ?>
                             </div>
                             <div class="panel-nav-social">
-                                <a href="#"><i class="icofont-facebook"></i></a>
-                                <a href="#"><i class="icofont-twitter"></i></a>
-                                <a href="#"><i class="icofont-instagram"></i></a>
-                                <a href="#"><i class="icofont-linkedin"></i></a>
-                                <a href="#"><i class="icofont-youtube"></i></a>
+                            <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_whatsapp')) ?>"><i class="icofont-whatsapp"></i></a>
+                                <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_instagram')) ?>"><i class="icofont-instagram"></i></a>
+                                <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_facebook')) ?>"><i class="icofont-facebook"></i></a>
+                                <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_twitter')) ?>"><i class="icofont-twitter"></i></a>
+                                <a href="<?php echo esc_url(get_theme_mod('mg_theme_customizer_control_socialmedia_youtube')) ?>"><i class="icofont-brand-youtube"></i></a>
                             </div>
                         </div>
                         <div class="mobile-canvas-content">
@@ -549,9 +549,6 @@
                                                     <div class="post-excerpt-box">
                                                         <p><?php the_excerpt(); ?></p>
                                                     </div>
-                                                    <div class="post-full-content">
-                                                        <?php the_content(); ?> <!-- Menampilkan konten lengkap -->
-                                                    </div>
                                                 </div>
                                             </div>
                                         </article>
@@ -569,7 +566,7 @@
                                 // Query untuk mengambil post dari kategori "video-mage" dengan offset satu post
                                 $args = array(
                                     'post_type'      => 'video',
-                                    'posts_per_page' => 1,            // Jumlah post yang ingin ditampilkan
+                                    'posts_per_page' => 3,            // Jumlah post yang ingin ditampilkan
                                     'offset'         => 1,            // Melewatkan post pertama
                                 );
 

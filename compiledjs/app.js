@@ -18,23 +18,19 @@
 
     $(function () {
         $('#theme-serach-box_Inner').removeClass('toggled');
-
         $('.theme-search-custom-iconn').on('click', function (e) {
             e.stopPropagation();
             $('#theme-serach-box_Inner').toggleClass('toggled');
             $("#popup-search").focus();
         });
-
         $('#theme-serach-box_Inner input').on('click', function (e) {
             e.stopPropagation();
         });
-
         $('#theme-serach-box_Inner, body').on('click', function () {
             $('#theme-serach-box_Inner').removeClass('toggled');
         });
     });
 	
-
     $(window).ready(function () {
         //$("#preloader").delay(100).fadeOut("fade");
         $("#preloader").fadeOut();

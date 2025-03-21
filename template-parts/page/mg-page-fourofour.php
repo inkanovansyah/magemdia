@@ -11,7 +11,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-8 mx-auto">
-            <?php echo do_shortcode(get_theme_mod('vg_theme_customizer_control_header_ads')) ?>
+            <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_header_ads')) ?>
         </div>
     </div>
 </div>

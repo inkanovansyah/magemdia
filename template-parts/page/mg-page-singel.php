@@ -5,7 +5,7 @@
                     </div>
                     <div class="tpoffcanvas__logo offcanvas-logo">
                         <a href="#">
-                        <img src="<?php echo get_template_directory_uri() .'/assets/media/logo.svg'?>" alt="Logo">
+                            <img src="<?php echo get_template_directory_uri() .'/assets/media/logo.svg'?>" alt="Logo">
                         </a>
                     </div>
                     <div class="tpoffcanvas__text offcanvas-content">
@@ -65,11 +65,11 @@
                                     ?>
                             </div>
                             <div class="panel-nav-social">
-                                <a href="#"><i class="icofont-facebook"></i></a>
-                                <a href="#"><i class="icofont-twitter"></i></a>
-                                <a href="#"><i class="icofont-instagram"></i></a>
-                                <a href="#"><i class="icofont-linkedin"></i></a>
-                                <a href="#"><i class="icofont-youtube"></i></a>
+                                <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_whatsapp')) ?>"><i class="icofont-whatsapp"></i></a>
+                                <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_instagram')) ?>"><i class="icofont-instagram"></i></a>
+                                <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_facebook')) ?>"><i class="icofont-facebook"></i></a>
+                                <a href="<?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_socialmedia_twitter')) ?>"><i class="icofont-twitter"></i></a>
+                                <a href="<?php echo esc_url(get_theme_mod('mg_theme_customizer_control_socialmedia_youtube')) ?>"><i class="icofont-brand-youtube"></i></a>
                             </div>
                         </div>
                         <div class="mobile-canvas-content">
@@ -166,7 +166,13 @@
                             </div>
                             <!-- Konten posting -->
                             <div class="post-content">
+                            <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_article_ads_top')) ?>
+                            </div>
+                            <div class="post-content">
                                 <?php echo $post_content; ?>
+                            </div>
+                            <div class="post-content">
+                            <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_article_ads_end')) ?>
                             </div>
                         </div>  
                             <div class="theme-blog-details">
@@ -245,7 +251,6 @@
                                                     </div>
                                                 </div>
                                             </form> -->
-                               
                                             <div class="comment-list">
                                                 <h4 class="title mt-4">Comment</h4>
                                                 <?php
@@ -378,24 +383,10 @@
                                         // No posts found
                                     }
                                     ?>
-                                    <div class="google-adsense-widget mt-40">
-                                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1429656230503295"
-                                            crossorigin="anonymous"></script>
-                                        <ins class="adsbygoogle"
-                                            style="display:block"
-                                            data-ad-format="fluid"
-                                            data-ad-layout-key="-fa+1o-1r-wv+1td"
-                                            data-ad-client="ca-pub-1429656230503295"
-                                            data-ad-slot="1259500603"></ins>
-                                        <script>
-                                            (adsbygoogle = window.adsbygoogle || []).push({});
-                                        </script>
-                                    </div>
                                 <div class="ads-widget mt-40">
                                     <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_article_ads_middle')) ?>
                                 </div>
                                 <div class="google-adsense-widget mt-40">
-                                <?php echo do_shortcode(get_theme_mod('mg_theme_customizer_control_article_ads_end')) ?>
                                     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1429656230503295"
                                         crossorigin="anonymous"></script>
                                             <!-- Horizontal iklan -->

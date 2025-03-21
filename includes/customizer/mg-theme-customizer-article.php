@@ -19,14 +19,6 @@ function mg_theme_customizer_article($wp_customize)
         'section' => 'article',
         'priority' => 1,
     ));
-    $wp_customize->add_setting('mg_theme_customizer_control_article_ads_midle_articel', array());
-    $wp_customize->add_control('mg_theme_customizer_control_article_ads_midle_articel', array(
-        'label' => 'Advertisement Middle Articel',
-        'type' => 'textarea',
-        'description'=>'add <br> {MG_MIDDLE_ADS} <br> inside editor on wordpress',
-        'section' => 'article',
-        'priority' => 1,
-    ));
     $wp_customize->add_setting('mg_theme_customizer_control_article_ads_middle', array());
     $wp_customize->add_control('mg_theme_customizer_control_article_ads_middle', array(
         'label' => 'Advertisement Middle',
