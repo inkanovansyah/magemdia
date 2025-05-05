@@ -129,7 +129,7 @@
                                         foreach ($tags as $tag) {
                                             echo '<a href="' . get_tag_link($tag->term_id) . '" class="badge text-bg-success" style="margin-right: 2px;">' . $tag->name . '</a>';
                                         }
-                                    }
+                                    }   
                                 ?>
                              </div>
                             <div class="post-bottom-meta-list post-meta-wrapper">

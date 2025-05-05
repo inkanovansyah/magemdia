@@ -13,6 +13,8 @@
         <?php
         wp_head();
         ?>
+            <link rel="canonical" href="<?php echo wp_get_canonical_url() 
+        ?>">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <!-- <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script> -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-97QB49NB8E"></script>

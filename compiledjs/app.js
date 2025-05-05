@@ -1,7 +1,6 @@
 (function($) {
     "use strict";
 	
-	
     $(".tp-menu-bar").on("click", function () {
 		$(".tpoffcanvas").addClass("opened");
 		$(".body-overlay").addClass("apply");
@@ -15,7 +14,6 @@
 		$(".body-overlay").removeClass("apply");
 	});
 	
-
     $(function () {
         $('#theme-serach-box_Inner').removeClass('toggled');
         $('.theme-search-custom-iconn').on('click', function (e) {

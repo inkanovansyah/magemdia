@@ -59,7 +59,6 @@
                                                     </div>
                                                 </div>
                                             </article>
-
                                             <?php
                                         }
                                         /* Restore original Post Data */
